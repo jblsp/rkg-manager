@@ -1,7 +1,5 @@
 import java.awt.Font;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import javax.swing.*;
 import com.formdev.flatlaf.FlatDarkLaf;
 
@@ -13,7 +11,7 @@ public class GUI {
         frame.setSize(500, 120);
         frame.setTitle("RKG Manager");
         try {
-            RKG rkg = new RKG(Files.readAllBytes(Path.of("02m08s6962311 EG2K.rkg")));
+            RKG rkg = new RKG("02m08s6962311 EG2K.rkg");
             String time = String.format("%02d:%02d.%03d", rkg.getMinutes(), rkg.getSeconds(), rkg.getMilliseconds());
             String name = rkg.getMiiName();
             String lap1 = String.format("%02d:%02d.%03d", rkg.getLapMinutes(1), rkg.getLapSeconds(1),

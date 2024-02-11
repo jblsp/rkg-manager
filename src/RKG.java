@@ -1,12 +1,15 @@
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 public class RKG {
 
     byte[] data;
 
-    public RKG(byte[] data) {
-        this.data = data;
+    public RKG(String file_path) throws IOException {
+        this.data = Files.readAllBytes(Path.of(file_path));
     }
 
     public int getMinutes() {
