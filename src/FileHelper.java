@@ -6,11 +6,8 @@ public class FileHelper {
 
     // this function returns bits of length l from the byte at offset o, starting
     // from starting_bit
+    // the starting bit must be within the first byte given (< 8)
     static int getData(byte[] data, int offset, int starting_bit, int length) {
-
-        if (starting_bit >= 8) {
-            return -1;
-        }
 
         // handle the first byte
         int result = Byte.toUnsignedInt(data[offset]) & (0b11111111 >>> starting_bit);
