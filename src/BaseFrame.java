@@ -1,11 +1,18 @@
 import java.awt.Font;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.io.File;
 
 public class BaseFrame extends JFrame {
 
     public BaseFrame() {
         this.setTitle("RKG Manager");
+        try {
+            this.setIconImage(ImageIO.read(new File("assets/icon.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             RKG rkg = new RKG("02m20s470_092Kg0d.rkg");
             String time = String.format("%02d:%02d.%03d", rkg.getMinutes(), rkg.getSeconds(), rkg.getMilliseconds());
