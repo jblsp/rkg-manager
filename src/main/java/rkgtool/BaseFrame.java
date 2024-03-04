@@ -17,7 +17,7 @@ public class BaseFrame extends JFrame {
         this.setSize(950, 600);
         this.setMinimumSize(new java.awt.Dimension(400, 250));
         this.setLocationRelativeTo(null);
-        menu_bar = new MenuBar();
+        this.menu_bar = new MenuBar();
         this.setJMenuBar(menu_bar);
 
         try {
@@ -26,15 +26,15 @@ public class BaseFrame extends JFrame {
             e.printStackTrace();
         }
 
-        tabbed_pane = new JTabbedPane();
-        this.add(tabbed_pane);
-
+        this.tabbed_pane = new JTabbedPane();
         tabbed_pane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                menu_bar.updateMenubarOptions((JPanel) tabbed_pane.getComponentAt(tabbed_pane.getSelectedIndex()));
+                menu_bar.updateMenubarOptions();
             }
         });
+        this.add(tabbed_pane);
+
         this.setVisible(true);
     }
 }

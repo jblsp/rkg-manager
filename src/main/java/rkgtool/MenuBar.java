@@ -1,6 +1,8 @@
 package rkgtool;
 
 import javax.swing.*;
+
+import java.awt.Component;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -10,14 +12,18 @@ public class MenuBar extends JMenuBar {
     // items that are not in either array will always appear
     ArrayList<JComponent> rkg_options;
     ArrayList<JComponent> rksys_options;
+    ArrayList<JMenu> tab_menus;
 
     public MenuBar() {
+
         rkg_options = new ArrayList<JComponent>();
         rksys_options = new ArrayList<JComponent>();
+        tab_menus = new ArrayList<JMenu>();
 
         // file menu
         JMenu file_menu = new JMenu("File");
         this.add(file_menu);
+        tab_menus.add(file_menu);
 
         JMenu new_submenu = new JMenu("New");
         file_menu.add(new_submenu);
@@ -36,7 +42,7 @@ public class MenuBar extends JMenuBar {
         open_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main.openFile();
+                Main.openTab();
             }
         });
         file_menu.add(open_button);
@@ -45,7 +51,7 @@ public class MenuBar extends JMenuBar {
         close_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Main.closeTab(Main.base_frame.tabbed_pane.getSelectedIndex());
             }
         });
         file_menu.add(close_button);
@@ -54,7 +60,7 @@ public class MenuBar extends JMenuBar {
         save_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Main.closeTab(Main.base_frame.tabbed_pane.getSelectedIndex());
             }
         });
         save_button.setEnabled(false);
@@ -120,9 +126,7 @@ public class MenuBar extends JMenuBar {
         // edit menu
         JMenu edit_menu = new JMenu("Edit");
         this.add(edit_menu);
-        rkg_options.add(edit_menu);
-        rksys_options.add(edit_menu);
-        // edit_menu.setEnabled(false);
+        tab_menus.add(edit_menu);
 
         JMenu time_submenu = new JMenu("Total Time");
         edit_menu.add(time_submenu);
@@ -253,6 +257,7 @@ public class MenuBar extends JMenuBar {
         // help menu
         JMenu help_menu = new JMenu("Help");
         this.add(help_menu);
+        tab_menus.add(help_menu);
 
         JMenuItem about_button = new JMenuItem("About");
         about_button.addActionListener(new ActionListener() {
@@ -265,7 +270,9 @@ public class MenuBar extends JMenuBar {
 
     }
 
-    public void updateMenubarOptions(JPanel tab) {
+    public void updateMenubarOptions() {
+        JPanel tab = (JPanel) Main.base_frame.tabbed_pane.getSelectedComponent();
+
         for (JComponent jc : rkg_options) {
             jc.setVisible(false);
         }
@@ -276,10 +283,19 @@ public class MenuBar extends JMenuBar {
             for (JComponent jc : rkg_options) {
                 jc.setVisible(true);
             }
-        }
-        if (tab instanceof RKSYSPanel) {
+        } else if (tab instanceof RKSYSPanel) {
             for (JComponent jc : rksys_options) {
                 jc.setVisible(true);
+            }
+        }
+        // disable all tab menus that have no components that are enabled and visible
+        for (JMenu m : tab_menus) {
+            m.setEnabled(false);
+            for (Component c : m.getMenuComponents()) {
+                if (c.isEnabled() && c.isVisible()) {
+                    m.setEnabled(true);
+                    break;
+                }
             }
         }
 

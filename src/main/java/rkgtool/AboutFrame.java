@@ -10,7 +10,7 @@ public class AboutFrame extends JFrame {
         this.setTitle("About");
         this.setResizable(false);
         this.setSize(250, 130);
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(Main.base_frame);
 
         JEditorPane about_pane = new JEditorPane("text/html",
                 "<html><body style='display: flex; justify-content: center; align-items: center;'>" +
@@ -32,7 +32,6 @@ public class AboutFrame extends JFrame {
                 }
             }
         });
-
         this.add(about_pane);
 
         this.setVisible(true);

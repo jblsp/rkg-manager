@@ -11,7 +11,7 @@ import com.formdev.flatlaf.util.SystemInfo;
 
 public class Main {
 
-    static JFrame base_frame;
+    static BaseFrame base_frame;
 
     public static void main(String[] args) {
 
@@ -34,9 +34,10 @@ public class Main {
         FlatOneDarkIJTheme.setup();
 
         base_frame = new BaseFrame();
+        base_frame.menu_bar.updateMenubarOptions();
     }
 
-    public static void openFile() {
+    public static void openTab() {
         JFileChooser file_chooser = new JFileChooser();
         file_chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         file_chooser.setFileFilter(new FileNameExtensionFilter("Mario Kart Wii Ghost/Save Files", "rkg", "dat"));
@@ -44,11 +45,25 @@ public class Main {
 
         if (return_value == JFileChooser.APPROVE_OPTION) {
             try {
-                RKG rkg = new RKG(file_chooser.getSelectedFile());
-            } catch (IOException e) {
-            } catch (RKG.InvalidRKG e) {
+                MKWSave save_file = new RKG(file_chooser.getSelectedFile());
+                switch (save_file.file_identifier) {
+                    case "RKGD":
+                        RKG rkg = (RKG) save_file;
+                        JPanel RKGPanel = new RKGPanel(rkg);
+                        base_frame.tabbed_pane.addTab("RKG", RKGPanel);
+                        break;
+                    case "RKSD":
+                        throw new MKWSave.InvalidSave("rksys.dat files are not yet supported.");
+                }
 
+            } catch (IOException | MKWSave.InvalidSave e) {
+                new ErrorFrame(e);
             }
         }
     }
+
+    public static void closeTab(int index) {
+        base_frame.tabbed_pane.removeTabAt(index);
+    }
+
 }
