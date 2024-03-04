@@ -1,4 +1,4 @@
-package rkgmanager;
+package rkgtool;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -15,7 +15,7 @@ public class MenuBar extends JMenuBar {
         open_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Open clicked");
+
             }
         });
         file_menu.add(open_button);

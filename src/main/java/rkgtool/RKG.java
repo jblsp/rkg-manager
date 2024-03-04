@@ -1,4 +1,4 @@
-package rkgmanager;
+package rkgtool;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

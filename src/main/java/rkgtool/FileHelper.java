@@ -1,4 +1,4 @@
-package rkgmanager;
+package rkgtool;
 
 public class FileHelper {
 
