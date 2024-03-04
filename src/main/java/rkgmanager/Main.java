@@ -1,8 +1,8 @@
 package rkgmanager;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import com.formdev.flatlaf.FlatDarkLaf;
+import javax.swing.*;
+
+import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import com.formdev.flatlaf.util.SystemInfo;
 
 public class Main {
@@ -34,10 +34,8 @@ public class Main {
             JDialog.setDefaultLookAndFeelDecorated(true);
         }
 
-        FlatDarkLaf.setup();
+        FlatOneDarkIJTheme.setup();
 
-        BaseFrame base_frame = new BaseFrame();
-        base_frame.pack();
-        base_frame.setVisible(true);
+        new BaseFrame();
     }
 }
