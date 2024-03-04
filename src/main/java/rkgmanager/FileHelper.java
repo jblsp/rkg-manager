@@ -1,3 +1,5 @@
+package rkgmanager;
+
 public class FileHelper {
 
     static int getData(byte[] data, int offset, int length) {

@@ -1,9 +1,11 @@
+package rkgmanager;
+
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.util.SystemInfo;
 
-public class Driver {
+public class Main {
     public static void main(String[] args) {
 
         if (SystemInfo.isMacOS) {
