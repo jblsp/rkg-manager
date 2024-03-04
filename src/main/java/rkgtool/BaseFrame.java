@@ -4,7 +4,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
-import java.io.File;
 
 public class BaseFrame extends JFrame {
 
@@ -21,7 +20,7 @@ public class BaseFrame extends JFrame {
         this.setJMenuBar(menu_bar);
 
         try {
-            this.setIconImage(ImageIO.read(new File("src/main/resources/icon.png")));
+            this.setIconImage(ImageIO.read(getClass().getResourceAsStream("/icon.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
