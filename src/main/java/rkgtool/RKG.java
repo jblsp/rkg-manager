@@ -1,17 +1,31 @@
 package rkgtool;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 
 public class RKG {
+    public static class InvalidRKG extends Exception {
+        public InvalidRKG(String message) {
+            super(message);
+        }
+    }
 
-    byte[] data;
+    private byte[] data;
 
-    public RKG(String file_path) throws IOException {
-        this.data = Files.readAllBytes(Path.of(file_path));
+    public RKG(File file) throws IOException, InvalidRKG {
+        this.data = Files.readAllBytes(file.toPath());
+        if (data.length < 4) {
+            throw new InvalidRKG("File size is less than 4 bytes.");
+        }
+        byte[] file_identifier_bytes = Arrays.copyOfRange(this.data, 0x0, 0x5);
+        String file_identifier = new String(file_identifier_bytes, java.nio.charset.StandardCharsets.US_ASCII);
+
+        if (file_identifier.equals("RKGD")) {
+            throw new InvalidRKG("File identifier does not match.");
+        }
     }
 
     public int getMinutes() {
@@ -50,7 +64,7 @@ public class RKG {
         return FileHelper.getData(this.data, 0x0A, 7, 5);
     }
 
-    public int getControlleriD() {
+    public int getControllerID() {
         return FileHelper.getData(this.data, 0x0B, 4, 4);
     }
 

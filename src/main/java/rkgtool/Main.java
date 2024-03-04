@@ -1,11 +1,18 @@
 package rkgtool;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import com.formdev.flatlaf.util.SystemInfo;
 
 public class Main {
+
+    static JFrame base_frame;
+
     public static void main(String[] args) {
 
         if (SystemInfo.isMacOS) {
@@ -26,6 +33,22 @@ public class Main {
 
         FlatOneDarkIJTheme.setup();
 
-        new BaseFrame();
+        base_frame = new BaseFrame();
+    }
+
+    public static void openFile() {
+        JFileChooser file_chooser = new JFileChooser();
+        file_chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        file_chooser.setFileFilter(new FileNameExtensionFilter("Mario Kart Wii Ghost/Save Files", "rkg", "dat"));
+        int return_value = file_chooser.showOpenDialog(null);
+
+        if (return_value == JFileChooser.APPROVE_OPTION) {
+            try {
+                RKG rkg = new RKG(file_chooser.getSelectedFile());
+            } catch (IOException e) {
+            } catch (RKG.InvalidRKG e) {
+
+            }
+        }
     }
 }
