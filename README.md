@@ -2,6 +2,10 @@
 
 GUI tool for Mario Kart Wii time trial ghost files (*.rkg) and Mario Kart Wii save files (rksys.dat).
 
+## Images
+
+![Base UI Window](images/baseframe.png)
+
 ## Project Roadmap
 
 - ### Beta 1.0 Release
