@@ -126,7 +126,8 @@ public class MenuBar extends JMenuBar {
         // edit menu
         JMenu edit_menu = new JMenu("Edit");
         this.add(edit_menu);
-        tab_menus.add(edit_menu);
+        // tab_menus.add(edit_menu);
+        edit_menu.setEnabled(false);
 
         JMenu time_submenu = new JMenu("Total Time");
         edit_menu.add(time_submenu);
