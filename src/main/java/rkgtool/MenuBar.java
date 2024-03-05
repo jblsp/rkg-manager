@@ -1,9 +1,14 @@
 package rkgtool;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.formdev.flatlaf.FlatClientProperties;
 
 import java.awt.Component;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MenuBar extends JMenuBar {
@@ -42,7 +47,30 @@ public class MenuBar extends JMenuBar {
         open_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main.openTab();
+                JFileChooser file_chooser = new JFileChooser();
+                file_chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+                file_chooser
+                        .setFileFilter(new FileNameExtensionFilter("Mario Kart Wii Ghost/Save Files", "rkg", "dat"));
+                int return_value = file_chooser.showOpenDialog(null);
+
+                if (return_value == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        MKWSave save_file = new RKG(file_chooser.getSelectedFile());
+                        switch (save_file.file_identifier) {
+                            case "RKGD":
+                                RKG rkg = (RKG) save_file;
+                                JPanel RKGPanel = new RKGPanel(rkg);
+                                Main.base_frame.tabbed_pane.addTab("RKG", RKGPanel);
+                                break;
+                            case "RKSD":
+                                throw new MKWSave.InvalidSave("rksys.dat files are not yet supported.");
+                        }
+
+                    } catch (IOException | MKWSave.InvalidSave ex) {
+                        JOptionPane.showMessageDialog(file_chooser, ex.getMessage(), "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
         });
         file_menu.add(open_button);
@@ -51,7 +79,8 @@ public class MenuBar extends JMenuBar {
         close_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main.closeTab(Main.base_frame.tabbed_pane.getSelectedIndex());
+                int cur_tab_index = Main.base_frame.tabbed_pane.getSelectedIndex();
+                Main.base_frame.tabbed_pane.removeTabAt(cur_tab_index);
             }
         });
         file_menu.add(close_button);
@@ -60,7 +89,6 @@ public class MenuBar extends JMenuBar {
         save_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main.closeTab(Main.base_frame.tabbed_pane.getSelectedIndex());
             }
         });
         save_button.setEnabled(false);
@@ -264,7 +292,16 @@ public class MenuBar extends JMenuBar {
         about_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AboutFrame();
+                JLabel title = new JLabel("RKG Tool");
+                title.putClientProperty(FlatClientProperties.STYLE_CLASS, "h1");
+                Object[] dialog_contents = new Object[] {
+                        title,
+                        "Made by Joe",
+                        " ",
+                        Main.createLinkLabel("Source", "https://github.com/jblsp/rkg-tool"),
+                        Main.createLinkLabel("License", "https://github.com/jblsp/rkg-tool/blob/master/LICENSE")
+                };
+                JOptionPane.showMessageDialog(Main.base_frame, dialog_contents, "About", JOptionPane.PLAIN_MESSAGE);
             }
         });
         help_menu.add(about_button);

@@ -1,9 +1,15 @@
 package rkgtool;
 
-import java.io.*;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import com.formdev.flatlaf.util.SystemInfo;
@@ -46,33 +52,20 @@ public class Main {
         return Main.class.getClassLoader().getResourceAsStream(path);
     }
 
-    public static void openTab() {
-        JFileChooser file_chooser = new JFileChooser();
-        file_chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        file_chooser.setFileFilter(new FileNameExtensionFilter("Mario Kart Wii Ghost/Save Files", "rkg", "dat"));
-        int return_value = file_chooser.showOpenDialog(null);
-
-        if (return_value == JFileChooser.APPROVE_OPTION) {
-            try {
-                MKWSave save_file = new RKG(file_chooser.getSelectedFile());
-                switch (save_file.file_identifier) {
-                    case "RKGD":
-                        RKG rkg = (RKG) save_file;
-                        JPanel RKGPanel = new RKGPanel(rkg);
-                        base_frame.tabbed_pane.addTab("RKG", RKGPanel);
-                        break;
-                    case "RKSD":
-                        throw new MKWSave.InvalidSave("rksys.dat files are not yet supported.");
+    public static JLabel createLinkLabel(String text, String url) {
+        JLabel link_label = new JLabel("<html><a href=\"#\">" + text + "</a></html>");
+        link_label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        link_label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Desktop.getDesktop().browse(new URI(url));
+                } catch (IOException | URISyntaxException ex) {
+                    System.err.println(ex.getMessage());
                 }
-
-            } catch (IOException | MKWSave.InvalidSave e) {
-                new ErrorFrame(e);
             }
-        }
-    }
-
-    public static void closeTab(int index) {
-        base_frame.tabbed_pane.removeTabAt(index);
+        });
+        return link_label;
     }
 
 }
