@@ -20,7 +20,7 @@ public class Main {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
 
             // application name used in screen menu bar
-            System.setProperty("apple.awt.application.name", "RKG Manager");
+            System.setProperty("apple.awt.application.name", "RKG Tool");
 
             // sets dark title bar
             System.setProperty("apple.awt.application.appearance", "NSAppearanceNameDarkAqua");
