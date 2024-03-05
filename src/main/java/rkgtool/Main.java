@@ -1,7 +1,6 @@
 package rkgtool;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -12,8 +11,14 @@ import com.formdev.flatlaf.util.SystemInfo;
 public class Main {
 
     static BaseFrame base_frame;
+    static String implVersion;
 
     public static void main(String[] args) {
+
+        implVersion = Main.class.getPackage().getImplementationVersion();
+        if (implVersion == null) {
+            implVersion = "Test";
+        }
 
         if (SystemInfo.isMacOS) {
             // enable screen menu bar (moves menu bar from JFrame to top of screen)
@@ -35,6 +40,10 @@ public class Main {
 
         base_frame = new BaseFrame();
         base_frame.menu_bar.updateMenubarOptions();
+    }
+
+    public static InputStream loadFromClassPath(String path) {
+        return Main.class.getClassLoader().getResourceAsStream(path);
     }
 
     public static void openTab() {

@@ -15,7 +15,7 @@ public class AboutFrame extends JFrame {
         JEditorPane about_pane = new JEditorPane("text/html",
                 "<html><body style='display: flex; justify-content: center; align-items: center;'>" +
                         "<div style='text-align: center; font-size: 14pt;'>" +
-                        "RKG Tool 0.1.0<br>" +
+                        "RKG Tool " + Main.implVersion + "<br>" +
                         "Made by Joe<br><br>" +
                         "<a href='https://github.com/jblsp/rkg-manager'>Source</a><br>" +
                         "<a href='https://github.com/jblsp/rkg-manager/blob/master/LICENSE'>License</a>" +
