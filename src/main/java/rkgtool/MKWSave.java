@@ -26,7 +26,7 @@ public class MKWSave {
         file_identifier = new String(file_identifier_bytes, java.nio.charset.StandardCharsets.US_ASCII);
     }
 
-    static protected int getData(byte[] data, int offset, int bit_length) {
+    protected static int getData(byte[] data, int offset, int bit_length) {
         return getData(data, offset, 0, bit_length);
     }
 

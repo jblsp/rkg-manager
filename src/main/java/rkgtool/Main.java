@@ -1,15 +1,8 @@
 package rkgtool;
 
 import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -54,26 +47,6 @@ public class Main {
         base_frame = new BaseFrame();
     }
 
-    public static InputStream loadResource(String path) {
-        return Main.class.getClassLoader().getResourceAsStream(path);
-    }
-
-    public static JLabel createLinkLabel(String text, String url) {
-        JLabel link_label = new JLabel("<html><a href=\"#\">" + text + "</a></html>");
-        link_label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        link_label.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                try {
-                    Desktop.getDesktop().browse(new URI(url));
-                } catch (IOException | URISyntaxException ex) {
-                    System.err.println(ex.getMessage());
-                }
-            }
-        });
-        return link_label;
-    }
-
     public static void renameRKG(ArrayList<RKG> rkgs) {
         JLabel line1 = new JLabel("The following files:");
         line1.putClientProperty(FlatClientProperties.STYLE_CLASS, "h3");
@@ -112,5 +85,4 @@ public class Main {
             }
         }
     }
-
 }

@@ -18,7 +18,7 @@ public class BaseFrame extends JFrame {
         this.setLocationRelativeTo(null);
 
         try {
-            this.setIconImage(ImageIO.read(Main.loadResource("icon.png")));
+            this.setIconImage(ImageIO.read(Helper.loadResource("icon.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }

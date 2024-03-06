@@ -103,10 +103,22 @@ public class MenuBar extends JMenuBar {
             }
         });
         save_button.setEnabled(false);
+        // TODO: Save button
+        // rksys_enabled_options.add(save_button);
+        // rkg_enabled_options.add(save_button);
         file_menu.add(save_button);
-        rksys_enabled_options.add(save_button);
-        rkg_enabled_options.add(save_button);
-        file_menu.add(save_button);
+
+        JMenuItem save_as_button = new JMenuItem("Save As");
+        save_as_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        save_as_button.setEnabled(false);
+        // TODO: Save as button
+        // rksys_enabled_options.add(save_as_button);
+        // rkg_enabled_options.add(save_as_button);
+        file_menu.add(save_as_button);
 
         JMenu export_submenu = new JMenu("Export");
         file_menu.add(export_submenu);
@@ -370,8 +382,8 @@ public class MenuBar extends JMenuBar {
                         version,
                         " ",
                         "Made by Joe",
-                        Main.createLinkLabel("Source", "https://github.com/jblsp/rkg-tool"),
-                        Main.createLinkLabel("License", "https://github.com/jblsp/rkg-tool/blob/master/LICENSE")
+                        Helper.createLinkLabel("Source", "https://github.com/jblsp/rkg-tool"),
+                        Helper.createLinkLabel("License", "https://github.com/jblsp/rkg-tool/blob/master/LICENSE")
                 };
                 JOptionPane.showMessageDialog(Main.base_frame, dialog_contents, "About", JOptionPane.PLAIN_MESSAGE);
             }
