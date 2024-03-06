@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
-public class MKWSave {
+public abstract class MKWSave {
     public static class InvalidSave extends Exception {
         public InvalidSave(String msg) {
             super(msg);
