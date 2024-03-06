@@ -1,14 +1,11 @@
 package rkgtool;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
 import java.awt.Component;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MenuBar extends JMenuBar {
@@ -49,36 +46,7 @@ public class MenuBar extends JMenuBar {
         open_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser file_chooser = new JFileChooser();
-                file_chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-                file_chooser
-                        .setFileFilter(new FileNameExtensionFilter("Mario Kart Wii Ghost/Save Files", "rkg", "dat"));
-                file_chooser.setMultiSelectionEnabled(true);
-
-                if (file_chooser.showOpenDialog(RKGTool.base_frame) == JFileChooser.APPROVE_OPTION) {
-
-                    for (File f : file_chooser.getSelectedFiles()) {
-
-                        String fname = f.getName();
-                        String f_ext = fname.substring(fname.lastIndexOf('.') + 1);
-                        // TODO: check all open tabs and see if any of their files match f (no duplicate
-                        // open files)
-                        try {
-                            switch (f_ext) {
-                                case "rkg":
-                                    RKG rkg = new RKG(f);
-                                    RKGTool.base_frame.tab_pane.addTab(rkg.file.getName(), new RKGPanel(rkg));
-                                    break;
-                                case "dat":
-                                    throw new MKWSave.InvalidSave("rksys.dat files are not yet supported.");
-                            }
-
-                        } catch (IOException | MKWSave.InvalidSave ex) {
-                            JOptionPane.showMessageDialog(file_chooser, ex.getMessage(), "Error",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                }
+                RKGTool.open();
             }
         });
         file_menu.add(open_button);
