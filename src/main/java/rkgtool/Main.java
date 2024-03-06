@@ -45,10 +45,9 @@ public class Main {
         FlatOneDarkIJTheme.setup();
 
         base_frame = new BaseFrame();
-        base_frame.menu_bar.updateMenubarOptions();
     }
 
-    public static InputStream loadFromClassPath(String path) {
+    public static InputStream loadResource(String path) {
         return Main.class.getClassLoader().getResourceAsStream(path);
     }
 

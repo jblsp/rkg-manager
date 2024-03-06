@@ -13,22 +13,24 @@ import java.util.ArrayList;
 
 public class MenuBar extends JMenuBar {
 
-    // arrays that inlcude options that appear for specific tabs
-    // items that are not in either array will always appear
-    ArrayList<JComponent> rkg_options;
-    ArrayList<JComponent> rksys_options;
-    ArrayList<JMenu> tab_menus;
+    // list of options/submenus that are visible only for specific tabs
+    ArrayList<JMenuItem> rkg_visible_options = new ArrayList<JMenuItem>(); // rkg panel options
+    ArrayList<JMenuItem> rksys_visible_options = new ArrayList<JMenuItem>(); // rksys panel options
+
+    // list of options/submenus that are enabled only in specific tabs
+    ArrayList<JMenuItem> any_tab_enabled_options = new ArrayList<JMenuItem>(); // any tab is open
+    ArrayList<JMenuItem> rkg_enabled_options = new ArrayList<JMenuItem>(); // rkg panel options
+    ArrayList<JMenuItem> rksys_enabled_options = new ArrayList<JMenuItem>(); // rksys panel options
+
+    // Generally, I want options under File to be dynamically enabled, and options
+    // under Edit to be dynamically visible.
 
     public MenuBar() {
 
-        rkg_options = new ArrayList<JComponent>();
-        rksys_options = new ArrayList<JComponent>();
-        tab_menus = new ArrayList<JMenu>();
+        // ============================= FILE MENU =============================
 
-        // file menu
         JMenu file_menu = new JMenu("File");
         this.add(file_menu);
-        tab_menus.add(file_menu);
 
         JMenu new_submenu = new JMenu("New");
         file_menu.add(new_submenu);
@@ -40,8 +42,8 @@ public class MenuBar extends JMenuBar {
 
             }
         });
-        rksys_button.setEnabled(false);
         new_submenu.add(rksys_button);
+        rksys_button.setEnabled(false); // TODO: New rksys button
 
         JMenuItem open_button = new JMenuItem("Open");
         open_button.addActionListener(new ActionListener() {
@@ -59,10 +61,11 @@ public class MenuBar extends JMenuBar {
                         switch (save_file.file_identifier) {
                             case "RKGD":
                                 RKG rkg = (RKG) save_file;
-                                JPanel RKGPanel = new RKGPanel(rkg);
-                                Main.base_frame.tabbed_pane.addTab("RKG", RKGPanel);
+                                Main.base_frame.tab_pane.addTab(rkg.file.getName(), new RKGPanel(rkg));
                                 break;
                             case "RKSD":
+                                // RKSYS rksys = (RKSYS) save_file;
+                                // Main.base_frame.tab_pane.addTab(rksys.file.getName(), new RKSYSPanel(rksys));
                                 throw new MKWSave.InvalidSave("rksys.dat files are not yet supported.");
                         }
 
@@ -79,11 +82,12 @@ public class MenuBar extends JMenuBar {
         close_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int cur_tab_index = Main.base_frame.tabbed_pane.getSelectedIndex();
-                Main.base_frame.tabbed_pane.removeTabAt(cur_tab_index);
+                int cur_tab_index = Main.base_frame.tab_pane.getSelectedIndex();
+                Main.base_frame.tab_pane.removeTabAt(cur_tab_index);
             }
         });
         file_menu.add(close_button);
+        any_tab_enabled_options.add(close_button);
 
         JMenuItem save_button = new JMenuItem("Save");
         save_button.addActionListener(new ActionListener() {
@@ -93,20 +97,21 @@ public class MenuBar extends JMenuBar {
         });
         save_button.setEnabled(false);
         file_menu.add(save_button);
+        rksys_enabled_options.add(save_button);
+        rkg_enabled_options.add(save_button);
+        file_menu.add(save_button);
 
         JMenu export_submenu = new JMenu("Export");
         file_menu.add(export_submenu);
-        export_submenu.setEnabled(false);
 
         JMenuItem export_rkg_button = new JMenuItem(".rkg File");
         export_rkg_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
             }
         });
         export_submenu.add(export_rkg_button);
-        rkg_options.add(export_rkg_button);
+        rkg_visible_options.add(export_rkg_button);
 
         JMenuItem export_rksys_button = new JMenuItem("rksys.dat File");
         export_rksys_button.addActionListener(new ActionListener() {
@@ -116,9 +121,10 @@ public class MenuBar extends JMenuBar {
             }
         });
         export_submenu.add(export_rksys_button);
-        rksys_options.add(export_rksys_button);
+        export_rksys_button.setEnabled(false); // TODO: Export rksys button
+        // rksys_visible_options.add(export_rksys_button);
 
-        JMenuItem export_mii_button = new JMenuItem("Mii file");
+        JMenuItem export_mii_button = new JMenuItem("Mii Data");
         export_mii_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,7 +132,8 @@ public class MenuBar extends JMenuBar {
             }
         });
         export_submenu.add(export_mii_button);
-        rkg_options.add(export_mii_button);
+        export_mii_button.setEnabled(false); // TODO: Export mii button
+        // rkg_visible_options.add(export_mii_button);
 
         file_menu.addSeparator();
 
@@ -137,7 +144,7 @@ public class MenuBar extends JMenuBar {
 
             }
         });
-        preferences_button.setEnabled(false);
+        preferences_button.setEnabled(false); // TODO: Preferences button
         file_menu.add(preferences_button);
 
         file_menu.addSeparator();
@@ -151,15 +158,14 @@ public class MenuBar extends JMenuBar {
         });
         file_menu.add(exit_button);
 
-        // edit menu
+        // ============================= EDIT MENU =============================
+
         JMenu edit_menu = new JMenu("Edit");
         this.add(edit_menu);
-        // tab_menus.add(edit_menu);
-        edit_menu.setEnabled(false);
 
-        JMenu time_submenu = new JMenu("Total Time");
+        JMenu time_submenu = new JMenu("Time");
         edit_menu.add(time_submenu);
-        rkg_options.add(time_submenu);
+        rkg_visible_options.add(time_submenu);
 
         JMenuItem minutes_button = new JMenuItem("Minutes");
         minutes_button.addActionListener(new ActionListener() {
@@ -169,6 +175,7 @@ public class MenuBar extends JMenuBar {
             }
         });
         time_submenu.add(minutes_button);
+        minutes_button.setEnabled(false); // TODO: Minutes button
 
         JMenuItem seconds_button = new JMenuItem("Seconds");
         seconds_button.addActionListener(new ActionListener() {
@@ -178,6 +185,7 @@ public class MenuBar extends JMenuBar {
             }
         });
         time_submenu.add(seconds_button);
+        seconds_button.setEnabled(false); // TODO: Seconds button
 
         JMenuItem milliseconds_button = new JMenuItem("Milliseconds");
         milliseconds_button.addActionListener(new ActionListener() {
@@ -187,10 +195,11 @@ public class MenuBar extends JMenuBar {
             }
         });
         time_submenu.add(milliseconds_button);
+        milliseconds_button.setEnabled(false); // TODO: Milliseconds button
 
         JMenu date_submenu = new JMenu("Date Set");
         edit_menu.add(date_submenu);
-        rkg_options.add(date_submenu);
+        rkg_visible_options.add(date_submenu);
 
         JMenuItem year_button = new JMenuItem("Year");
         year_button.addActionListener(new ActionListener() {
@@ -200,6 +209,7 @@ public class MenuBar extends JMenuBar {
             }
         });
         date_submenu.add(year_button);
+        year_button.setEnabled(false); // TODO: Year button
 
         JMenuItem month_button = new JMenuItem("Month");
         month_button.addActionListener(new ActionListener() {
@@ -209,6 +219,7 @@ public class MenuBar extends JMenuBar {
             }
         });
         date_submenu.add(month_button);
+        month_button.setEnabled(false); // TODO: Month button
 
         JMenuItem day_button = new JMenuItem("Day");
         day_button.addActionListener(new ActionListener() {
@@ -218,10 +229,11 @@ public class MenuBar extends JMenuBar {
             }
         });
         date_submenu.add(day_button);
+        day_button.setEnabled(false); // TODO: Day button
 
         JMenu location_submenu = new JMenu("Location");
         edit_menu.add(location_submenu);
-        rkg_options.add(location_submenu);
+        rkg_visible_options.add(location_submenu);
 
         JMenuItem country_button = new JMenuItem("Country");
         country_button.addActionListener(new ActionListener() {
@@ -231,6 +243,7 @@ public class MenuBar extends JMenuBar {
             }
         });
         location_submenu.add(country_button);
+        country_button.setEnabled(false); // TODO: Country button
 
         JMenuItem state_button = new JMenuItem("State");
         state_button.addActionListener(new ActionListener() {
@@ -239,8 +252,8 @@ public class MenuBar extends JMenuBar {
 
             }
         });
-        edit_menu.add(state_button);
         location_submenu.add(state_button);
+        state_button.setEnabled(false); // TODO: State button
 
         JMenuItem mii_name_button = new JMenuItem("Mii Name");
         mii_name_button.addActionListener(new ActionListener() {
@@ -249,9 +262,9 @@ public class MenuBar extends JMenuBar {
 
             }
         });
-
         edit_menu.add(mii_name_button);
-        rkg_options.add(mii_name_button);
+        mii_name_button.setVisible(false); // TODO: Mii Name button
+        // rkg_visible_options.add(mii_name_button);
 
         JMenuItem controller_button = new JMenuItem("Controller");
         controller_button.addActionListener(new ActionListener() {
@@ -261,7 +274,8 @@ public class MenuBar extends JMenuBar {
             }
         });
         edit_menu.add(controller_button);
-        rkg_options.add(controller_button);
+        controller_button.setVisible(false); // TODO : Controller button
+        // rkg_visible_options.add(controller_button);
 
         JMenuItem ghost_type_button = new JMenuItem("Ghost Type");
         ghost_type_button.addActionListener(new ActionListener() {
@@ -271,7 +285,8 @@ public class MenuBar extends JMenuBar {
             }
         });
         edit_menu.add(ghost_type_button);
-        rkg_options.add(ghost_type_button);
+        ghost_type_button.setVisible(false); // TODO: Ghost type button
+        // rkg_visible_options.add(ghost_type_button);
 
         JMenuItem unlock_all_button = new JMenuItem("Unlock All");
         unlock_all_button.addActionListener(new ActionListener() {
@@ -281,12 +296,13 @@ public class MenuBar extends JMenuBar {
             }
         });
         edit_menu.add(unlock_all_button);
-        rksys_options.add(unlock_all_button);
+        unlock_all_button.setVisible(false); // TODO: unlock all button
+        // rksys_visible_options.add(unlock_all_button);
 
-        // help menu
+        // ============================= HELP MENU =============================
+
         JMenu help_menu = new JMenu("Help");
         this.add(help_menu);
-        tab_menus.add(help_menu);
 
         JMenuItem about_button = new JMenuItem("About");
         about_button.addActionListener(new ActionListener() {
@@ -306,36 +322,71 @@ public class MenuBar extends JMenuBar {
         });
         help_menu.add(about_button);
 
+        this.updateMenubarOptions();
     }
 
     public void updateMenubarOptions() {
-        JPanel tab = (JPanel) Main.base_frame.tabbed_pane.getSelectedComponent();
+        JPanel tab;
+        try {
+            tab = (JPanel) Main.base_frame.tab_pane.getSelectedComponent();
+        } catch (NullPointerException e) {
+            tab = null;
+        }
 
-        for (JComponent jc : rkg_options) {
-            jc.setVisible(false);
+        for (JMenuItem jmi : rkg_visible_options) {
+            jmi.setVisible(false);
         }
-        for (JComponent jc : rksys_options) {
-            jc.setVisible(false);
+        for (JMenuItem jmi : rksys_visible_options) {
+            jmi.setVisible(false);
         }
+        for (JMenuItem jmi : any_tab_enabled_options) {
+            jmi.setEnabled(false);
+        }
+        for (JMenuItem jmi : rkg_enabled_options) {
+            jmi.setEnabled(false);
+        }
+        for (JMenuItem jmi : rksys_enabled_options) {
+            jmi.setEnabled(false);
+        }
+
         if (tab instanceof RKGPanel) {
-            for (JComponent jc : rkg_options) {
-                jc.setVisible(true);
+            for (JComponent jmi : rkg_visible_options) {
+                jmi.setVisible(true);
+            }
+            for (JComponent jmi : rkg_enabled_options) {
+                jmi.setEnabled(true);
             }
         } else if (tab instanceof RKSYSPanel) {
-            for (JComponent jc : rksys_options) {
-                jc.setVisible(true);
+            for (JComponent jmi : rksys_visible_options) {
+                jmi.setVisible(true);
+            }
+            for (JMenuItem jmi : rksys_enabled_options) {
+                jmi.setEnabled(true);
+            }
+        } else if (tab != null) {
+            for (JComponent jmi : any_tab_enabled_options) {
+                jmi.setEnabled(true);
             }
         }
-        // disable all tab menus that have no components that are enabled and visible
-        for (JMenu m : tab_menus) {
-            m.setEnabled(false);
-            for (Component c : m.getMenuComponents()) {
-                if (c.isEnabled() && c.isVisible()) {
-                    m.setEnabled(true);
-                    break;
-                }
+        for (Component m : this.getComponents()) {
+            if (m instanceof JMenu) {
+                this.disableEmptyMenusR((JMenu) m);
             }
         }
+    }
 
+    // disables menus that contain elements that are only disabled or not visible
+    private void disableEmptyMenusR(JMenu m) {
+        m.setEnabled(false);
+        for (Component c : m.getMenuComponents()) {
+            if (c instanceof JMenu) {
+                this.disableEmptyMenusR((JMenu) c);
+                if (c.isVisible() && c.isEnabled() && !m.isEnabled()) {
+                    m.setEnabled(true);
+                }
+            } else if (c.isVisible() && c.isEnabled() && !m.isEnabled()) {
+                m.setEnabled(true);
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ public class MKWSave {
     }
 
     protected byte[] data;
+    public File file;
     String file_identifier;
 
     public MKWSave(File file) throws IOException, InvalidSave {
@@ -20,6 +21,7 @@ public class MKWSave {
         if (data.length < 4) {
             throw new InvalidSave("File size is less than 4 bytes");
         }
+        this.file = file;
         byte[] file_identifier_bytes = Arrays.copyOfRange(this.data, 0x0, 0x4);
         file_identifier = new String(file_identifier_bytes, java.nio.charset.StandardCharsets.US_ASCII);
     }
