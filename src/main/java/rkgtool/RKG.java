@@ -2,10 +2,7 @@ package rkgtool;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-
-import javax.swing.JOptionPane;
 
 public class RKG extends MKWSave {
 
@@ -14,6 +11,10 @@ public class RKG extends MKWSave {
         if (!this.file_identifier.equals("RKGD")) {
             throw new InvalidSave("File identifier does not match.");
         }
+    }
+
+    public byte[] getMiiData() {
+        return Arrays.copyOfRange(this.data, 0x3C, 0x3C + 0x4A + 0x01);
     }
 
     public int getMinutes() {
@@ -101,17 +102,6 @@ public class RKG extends MKWSave {
 
     public int getLocationCode() {
         return getData(this.data, 0x36, 2 * 8);
-    }
-
-    public String getMiiName() {
-        try {
-            String name = new String(Arrays.copyOfRange(this.data, 0x3C + 0x2, 0x03C + 0x15 + 1), "UTF-16BE");
-            return name.replaceAll("\\x00", "");
-        } catch (UnsupportedEncodingException e) {
-            String msg = new String("Error reading mii name of file " + this.file.getName() + ":\n" + e.getMessage());
-            JOptionPane.showMessageDialog(RKGTool.base_frame, msg, "Error", JOptionPane.ERROR_MESSAGE);
-            return " ";
-        }
     }
 
     public String getFormattedFileName() {

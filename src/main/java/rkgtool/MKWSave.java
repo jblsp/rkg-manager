@@ -2,10 +2,14 @@ package rkgtool;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+import javax.swing.JOptionPane;
+
 public abstract class MKWSave {
+
     public static class InvalidSave extends Exception {
         public InvalidSave(String msg) {
             super(msg);
@@ -24,6 +28,28 @@ public abstract class MKWSave {
         this.file = file;
         byte[] file_identifier_bytes = Arrays.copyOfRange(this.data, 0x0, 0x4);
         file_identifier = new String(file_identifier_bytes, java.nio.charset.StandardCharsets.US_ASCII);
+    }
+
+    public abstract byte[] getMiiData();
+
+    public String getMiiName() {
+        // Each character is made up of two bytes
+        // When we encounter the null character (0x0 0x0) that is the end of the string
+        byte[] name_bytes = Arrays.copyOfRange(this.getMiiData(), 0x2, 0x16);
+        for (int i = 0x0; i < name_bytes.length - 1; i += 0x2) {
+            if (name_bytes[i] == 0 && name_bytes[i + 0x1] == 0) {
+                name_bytes = Arrays.copyOfRange(name_bytes, 0x0, i);
+                break;
+            }
+        }
+        try {
+            String name = new String(name_bytes, "UTF-16BE");
+            return name;
+        } catch (UnsupportedEncodingException e) {
+            String msg = new String("Error reading mii name of file " + this.file.getName() + ":\n" + e.getMessage());
+            JOptionPane.showMessageDialog(RKGTool.base_frame, msg, "Error", JOptionPane.ERROR_MESSAGE);
+            return " ";
+        }
     }
 
     protected static int getData(byte[] data, int offset, int bit_length) {
@@ -66,4 +92,5 @@ public abstract class MKWSave {
 
         return result;
     }
+
 }

@@ -11,4 +11,8 @@ public class RKSYS extends MKWSave {
             throw new InvalidSave("File identifier does not match.");
         }
     }
+
+    public byte[] getMiiData() {
+        return "-1".getBytes();
+    }
 }
