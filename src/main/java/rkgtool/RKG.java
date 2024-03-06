@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
+import javax.swing.JOptionPane;
+
 public class RKG extends MKWSave {
 
     public RKG(File file) throws IOException, InvalidSave {
@@ -101,8 +103,19 @@ public class RKG extends MKWSave {
         return getData(this.data, 0x36, 2 * 8);
     }
 
-    public String getMiiName() throws UnsupportedEncodingException {
-        String name = new String(Arrays.copyOfRange(this.data, 0x3C + 0x2, 0x03C + 0x15 + 1), "UTF-16BE");
-        return name.replaceAll("\\x00", "");
+    public String getMiiName() {
+        try {
+            String name = new String(Arrays.copyOfRange(this.data, 0x3C + 0x2, 0x03C + 0x15 + 1), "UTF-16BE");
+            return name.replaceAll("\\x00", "");
+        } catch (UnsupportedEncodingException e) {
+            String msg = new String("Error reading mii name of file " + this.file.getName() + ":\n" + e.getMessage());
+            JOptionPane.showMessageDialog(Main.base_frame, msg, "Error", JOptionPane.ERROR_MESSAGE);
+            return " ";
+        }
+    }
+
+    public String getFormattedFileName() {
+        return String.format("%2dm%2ds%3d %s", this.getMinutes(), this.getSeconds(), this.getMilliseconds(),
+                this.getMiiName());
     }
 }
