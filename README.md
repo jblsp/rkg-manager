@@ -27,7 +27,7 @@ GUI tool for Mario Kart Wii [ghost](https://wiki.tockdom.com/wiki/RKG_(File_Form
   - [x] File Opening (Mar 4th 2024)
   - [ ] File Locking + Duplicate Prevention
   - [x] (Batch) RKG File Renaming (Mar 5th, 2024)
-  - [ ] Base Window UI
+  - [ ] Welcome Window
   - [ ] Initial RKG UI
   - [x] Migrate Project to Maven (Mar 3rd, 2024)
   - [x] Building with Maven (Mar 4th, 2024)
@@ -54,10 +54,21 @@ GUI tool for Mario Kart Wii [ghost](https://wiki.tockdom.com/wiki/RKG_(File_Form
   - [ ] RKSYS CRC-32 Checksum
   - [ ] RKSYS Edit Region
   - [ ] RKSYS Unlock All
+  - [ ] Create License on RKSYS File
   - [ ] Add Ghost to RKSYS File
+  - [ ] Open Ghost from RKSYS File
   - [ ] RKSYS UI
 
 - ### Version 0.4.0
+
+  - [ ] CTGP Extended Ghost Info Handling
+  - [ ] CTGP Pause Inputs RKG Files Handling
+  - [ ] UI Extension for RKG files from CTGP
+  - [ ] Add CTGP Extended Ghost Info to RKG UI
+  - [ ] Add CTGP Database URL to RKG UI
+  - [ ] Add CTGP Pause Input Viewing to RKG UI
+
+- ### Version 1.0.0
 
   - [ ] Preferences Window
   - [ ] Preferences Saving
@@ -66,16 +77,10 @@ GUI tool for Mario Kart Wii [ghost](https://wiki.tockdom.com/wiki/RKG_(File_Form
   - [ ] Preference: Show Save Warning
   - [ ] Preference: Light Theme (FlatLaf Light)
   - [ ] Preference: Starting CD for File Opening
+  - [ ] Preference: Hide Welcome Window on Startup
   - [ ] Menu Bar Keybindings
-
-- ### Version 1.0.0
-
-  - [ ] CTGP Extended Ghost Info Handling
-  - [ ] CTGP Pause Inputs RKG Files Handling
-  - [ ] UI Extension for RKG files from CTGP
-  - [ ] Add CTGP Extended Ghost Info to RKG UI
-  - [ ] Add CTGP Database URL to RKG UI
-  - [ ] Add CTGP Pause Input Viewing to RKG UI
+  - [ ] MacOS In-Window Menu Bar
+  - [ ] Automatically Check for Updates
 
 - ### Unplanned/Potential Features
 
