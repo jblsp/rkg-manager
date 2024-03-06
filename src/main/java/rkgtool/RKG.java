@@ -115,7 +115,7 @@ public class RKG extends MKWSave {
     }
 
     public String getFormattedFileName() {
-        return String.format("%2dm%2ds%3d %s", this.getMinutes(), this.getSeconds(), this.getMilliseconds(),
+        return String.format("%02dm%02ds%03d %s.rkg", this.getMinutes(), this.getSeconds(), this.getMilliseconds(),
                 this.getMiiName());
     }
 }

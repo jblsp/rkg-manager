@@ -25,7 +25,8 @@ GUI tool for Mario Kart Wii [ghost](https://wiki.tockdom.com/wiki/RKG_(File_Form
   - [x] Dynamic Menu Bar (Mar 4th, 2024)
   - [x] About Window (Mar 3rd, 2024)
   - [x] File Opening (Mar 4th 2024)
-  - [ ] (Batch) RKG File Renaming
+  - [ ] File Locking + Duplicate Prevention
+  - [x] (Batch) RKG File Renaming (Mar 5th, 2024)
   - [ ] Base Window UI
   - [ ] Initial RKG UI
   - [x] Migrate Project to Maven (Mar 3rd, 2024)
@@ -34,6 +35,7 @@ GUI tool for Mario Kart Wii [ghost](https://wiki.tockdom.com/wiki/RKG_(File_Form
 - ### Version 0.2.0
 
   - [ ] RKG File Exporting
+  - [ ] New Duplicate RKG From Current RKG
   - [ ] RKG CRC16-CCITT-XModem Checksum
   - [ ] Editing for Some Basic RKG Header Values
   - [ ] Warn User of Unsaved Changes on Close/Exit
@@ -63,6 +65,7 @@ GUI tool for Mario Kart Wii [ghost](https://wiki.tockdom.com/wiki/RKG_(File_Form
   - [ ] Preference: Show Region Prompt
   - [ ] Preference: Show Save Warning
   - [ ] Preference: Light Theme (FlatLaf Light)
+  - [ ] Preference: Starting CD for File Opening
   - [ ] Menu Bar Keybindings
 
 - ### Version 1.0.0

@@ -61,6 +61,8 @@ public class MenuBar extends JMenuBar {
 
                         String fname = f.getName();
                         String f_ext = fname.substring(fname.lastIndexOf('.') + 1);
+                        // TODO: check all open tabs and see if any of their files match f (no duplicate
+                        // open files)
                         try {
                             switch (f_ext) {
                                 case "rkg":
@@ -91,6 +93,8 @@ public class MenuBar extends JMenuBar {
         });
         file_menu.add(close_button);
         any_tab_enabled_options.add(close_button);
+
+        file_menu.addSeparator();
 
         JMenuItem save_button = new JMenuItem("Save");
         save_button.addActionListener(new ActionListener() {
@@ -149,6 +153,48 @@ public class MenuBar extends JMenuBar {
         });
         preferences_button.setEnabled(false); // TODO: Preferences button
         file_menu.add(preferences_button);
+
+        file_menu.addSeparator();
+
+        JMenu rename_submenu = new JMenu("Rename");
+        file_menu.add(rename_submenu);
+
+        JMenuItem current_rkg_button = new JMenuItem("Current RKG File");
+        current_rkg_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Component cur_tab = Main.base_frame.tab_pane.getSelectedComponent();
+                if (cur_tab instanceof RKGPanel) {
+                    ArrayList<RKG> al = new ArrayList<RKG>();
+                    al.add(((RKGPanel) cur_tab).rkg);
+                    Main.renameRKG(al);
+                }
+            }
+        });
+        rename_submenu.add(current_rkg_button);
+        rkg_visible_options.add(current_rkg_button);
+
+        JMenuItem all_open_rkg_button = new JMenuItem("All Open RKG Files");
+        all_open_rkg_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<RKG> al = new ArrayList<RKG>();
+
+                for (Component tab : Main.base_frame.tab_pane.getComponents()) {
+                    if (tab instanceof RKGPanel) {
+                        al.add(((RKGPanel) tab).rkg);
+                    }
+                }
+
+                if (al.size() == 0) {
+                    JOptionPane.showMessageDialog(Main.base_frame, "There are no open RKG files.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                } else {
+                    Main.renameRKG(al);
+                }
+            }
+        });
+        rename_submenu.add(all_open_rkg_button);
 
         file_menu.addSeparator();
 
@@ -313,10 +359,17 @@ public class MenuBar extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 JLabel title = new JLabel("RKG Tool");
                 title.putClientProperty(FlatClientProperties.STYLE_CLASS, "h1");
+                String version;
+                if (Main.implVersion.equals("Test")) {
+                    version = "Test Build";
+                } else {
+                    version = "Version " + Main.implVersion;
+                }
                 Object[] dialog_contents = new Object[] {
                         title,
-                        "Made by Joe",
+                        version,
                         " ",
+                        "Made by Joe",
                         Main.createLinkLabel("Source", "https://github.com/jblsp/rkg-tool"),
                         Main.createLinkLabel("License", "https://github.com/jblsp/rkg-tool/blob/master/LICENSE")
                 };
@@ -324,6 +377,8 @@ public class MenuBar extends JMenuBar {
             }
         });
         help_menu.add(about_button);
+
+        // =====================================================================
 
         this.updateMenubarOptions();
     }
