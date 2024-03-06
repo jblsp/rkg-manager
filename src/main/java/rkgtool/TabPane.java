@@ -21,7 +21,7 @@ public class TabPane extends JTabbedPane {
         this.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Main.base_frame.menu_bar.updateMenubarOptions();
+                RKGTool.base_frame.menu_bar.updateMenubarOptions();
             }
         });
     }

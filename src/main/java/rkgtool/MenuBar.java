@@ -55,7 +55,7 @@ public class MenuBar extends JMenuBar {
                         .setFileFilter(new FileNameExtensionFilter("Mario Kart Wii Ghost/Save Files", "rkg", "dat"));
                 file_chooser.setMultiSelectionEnabled(true);
 
-                if (file_chooser.showOpenDialog(Main.base_frame) == JFileChooser.APPROVE_OPTION) {
+                if (file_chooser.showOpenDialog(RKGTool.base_frame) == JFileChooser.APPROVE_OPTION) {
 
                     for (File f : file_chooser.getSelectedFiles()) {
 
@@ -67,7 +67,7 @@ public class MenuBar extends JMenuBar {
                             switch (f_ext) {
                                 case "rkg":
                                     RKG rkg = new RKG(f);
-                                    Main.base_frame.tab_pane.addTab(rkg.file.getName(), new RKGPanel(rkg));
+                                    RKGTool.base_frame.tab_pane.addTab(rkg.file.getName(), new RKGPanel(rkg));
                                     break;
                                 case "dat":
                                     throw new MKWSave.InvalidSave("rksys.dat files are not yet supported.");
@@ -87,8 +87,8 @@ public class MenuBar extends JMenuBar {
         close_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int cur_tab_index = Main.base_frame.tab_pane.getSelectedIndex();
-                Main.base_frame.tab_pane.removeTabAt(cur_tab_index);
+                int cur_tab_index = RKGTool.base_frame.tab_pane.getSelectedIndex();
+                RKGTool.base_frame.tab_pane.removeTabAt(cur_tab_index);
             }
         });
         file_menu.add(close_button);
@@ -175,11 +175,11 @@ public class MenuBar extends JMenuBar {
         current_rkg_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Component cur_tab = Main.base_frame.tab_pane.getSelectedComponent();
+                Component cur_tab = RKGTool.base_frame.tab_pane.getSelectedComponent();
                 if (cur_tab instanceof RKGPanel) {
                     ArrayList<RKG> al = new ArrayList<RKG>();
                     al.add(((RKGPanel) cur_tab).rkg);
-                    Main.renameRKG(al);
+                    RKGTool.renameRKG(al);
                 }
             }
         });
@@ -192,17 +192,17 @@ public class MenuBar extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<RKG> al = new ArrayList<RKG>();
 
-                for (Component tab : Main.base_frame.tab_pane.getComponents()) {
+                for (Component tab : RKGTool.base_frame.tab_pane.getComponents()) {
                     if (tab instanceof RKGPanel) {
                         al.add(((RKGPanel) tab).rkg);
                     }
                 }
 
                 if (al.size() == 0) {
-                    JOptionPane.showMessageDialog(Main.base_frame, "There are no open RKG files.", "Error",
+                    JOptionPane.showMessageDialog(RKGTool.base_frame, "There are no open RKG files.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
-                    Main.renameRKG(al);
+                    RKGTool.renameRKG(al);
                 }
             }
         });
@@ -372,10 +372,10 @@ public class MenuBar extends JMenuBar {
                 JLabel title = new JLabel("RKG Tool");
                 title.putClientProperty(FlatClientProperties.STYLE_CLASS, "h1");
                 String version;
-                if (Main.implVersion.equals("Test")) {
+                if (RKGTool.implVersion.equals("Test")) {
                     version = "Test Build";
                 } else {
-                    version = "Version " + Main.implVersion;
+                    version = "Version " + RKGTool.implVersion;
                 }
                 Object[] dialog_contents = new Object[] {
                         title,
@@ -385,7 +385,7 @@ public class MenuBar extends JMenuBar {
                         Helper.createLinkLabel("Source", "https://github.com/jblsp/rkg-tool"),
                         Helper.createLinkLabel("License", "https://github.com/jblsp/rkg-tool/blob/master/LICENSE")
                 };
-                JOptionPane.showMessageDialog(Main.base_frame, dialog_contents, "About", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(RKGTool.base_frame, dialog_contents, "About", JOptionPane.PLAIN_MESSAGE);
             }
         });
         help_menu.add(about_button);
@@ -398,7 +398,7 @@ public class MenuBar extends JMenuBar {
     public void updateMenubarOptions() {
         JPanel tab;
         try {
-            tab = (JPanel) Main.base_frame.tab_pane.getSelectedComponent();
+            tab = (JPanel) RKGTool.base_frame.tab_pane.getSelectedComponent();
         } catch (NullPointerException e) {
             tab = null;
         }

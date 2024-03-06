@@ -44,7 +44,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>rkgtool.Main</mainClass>
+                            <mainClass>rkgtool.RKGTool</mainClass>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                     </archive>
@@ -63,9 +63,6 @@
                             <headerType>gui</headerType>
                             <outfile>target/${project.artifactId}.exe</outfile>
                             <jar>target/${project.build.finalName}-jar-with-dependencies.jar</jar>
-                            <classPath>
-                                <mainClass>rkgtool.Main</mainClass>
-                            </classPath>
                             <icon>src/main/resources/icon.ico</icon>
                             <jre>
                                 <minVersion>1.5.0</minVersion>

@@ -109,7 +109,7 @@ public class RKG extends MKWSave {
             return name.replaceAll("\\x00", "");
         } catch (UnsupportedEncodingException e) {
             String msg = new String("Error reading mii name of file " + this.file.getName() + ":\n" + e.getMessage());
-            JOptionPane.showMessageDialog(Main.base_frame, msg, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(RKGTool.base_frame, msg, "Error", JOptionPane.ERROR_MESSAGE);
             return " ";
         }
     }

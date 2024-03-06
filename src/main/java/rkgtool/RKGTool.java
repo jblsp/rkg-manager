@@ -14,14 +14,14 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import com.formdev.flatlaf.util.SystemInfo;
 
-public class Main {
+public class RKGTool {
 
     static BaseFrame base_frame;
     static String implVersion;
 
     public static void main(String[] args) {
 
-        implVersion = Main.class.getPackage().getImplementationVersion();
+        implVersion = RKGTool.class.getPackage().getImplementationVersion();
         if (implVersion == null) {
             implVersion = "Test";
         }
@@ -63,7 +63,7 @@ public class Main {
         for (int i = 0; i < rkgs.size(); i++) {
             dialog_contents[i + rkgs.size() + 3] = rkgs.get(i).getFormattedFileName();
         }
-        int selection = JOptionPane.showConfirmDialog(Main.base_frame, dialog_contents, "Rename",
+        int selection = JOptionPane.showConfirmDialog(RKGTool.base_frame, dialog_contents, "Rename",
                 JOptionPane.OK_CANCEL_OPTION);
         if (selection == JOptionPane.OK_OPTION) {
             for (RKG rkg : rkgs) {
@@ -76,11 +76,11 @@ public class Main {
                     System.err.println(e.getMessage());
                 }
             }
-            for (int i = 0; i < Main.base_frame.tab_pane.getTabCount(); i++) {
-                Component tab = Main.base_frame.tab_pane.getComponentAt(i);
+            for (int i = 0; i < RKGTool.base_frame.tab_pane.getTabCount(); i++) {
+                Component tab = RKGTool.base_frame.tab_pane.getComponentAt(i);
                 if (tab instanceof RKGPanel) {
                     System.out.println(((RKGPanel) tab).rkg.file.getName());
-                    Main.base_frame.tab_pane.setTitleAt(i, new String(((RKGPanel) tab).rkg.file.getName()));
+                    RKGTool.base_frame.tab_pane.setTitleAt(i, new String(((RKGPanel) tab).rkg.file.getName()));
                 }
             }
         }

@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 public class Helper {
 
     public static InputStream loadResource(String path) {
-        return Main.class.getClassLoader().getResourceAsStream(path);
+        return RKGTool.class.getClassLoader().getResourceAsStream(path);
     }
 
     public static JLabel createLinkLabel(String text, String url) {
