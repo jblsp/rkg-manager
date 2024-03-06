@@ -53,25 +53,28 @@ public class MenuBar extends JMenuBar {
                 file_chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
                 file_chooser
                         .setFileFilter(new FileNameExtensionFilter("Mario Kart Wii Ghost/Save Files", "rkg", "dat"));
-                int return_value = file_chooser.showOpenDialog(null);
+                file_chooser.setMultiSelectionEnabled(true);
 
-                if (return_value == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        MKWSave save_file = new RKG(file_chooser.getSelectedFile());
-                        switch (save_file.file_identifier) {
-                            case "RKGD":
-                                RKG rkg = (RKG) save_file;
-                                Main.base_frame.tab_pane.addTab(rkg.file.getName(), new RKGPanel(rkg));
-                                break;
-                            case "RKSD":
-                                // RKSYS rksys = (RKSYS) save_file;
-                                // Main.base_frame.tab_pane.addTab(rksys.file.getName(), new RKSYSPanel(rksys));
-                                throw new MKWSave.InvalidSave("rksys.dat files are not yet supported.");
+                if (file_chooser.showOpenDialog(Main.base_frame) == JFileChooser.APPROVE_OPTION) {
+
+                    for (File f : file_chooser.getSelectedFiles()) {
+
+                        String fname = f.getName();
+                        String f_ext = fname.substring(fname.lastIndexOf('.') + 1);
+                        try {
+                            switch (f_ext) {
+                                case "rkg":
+                                    RKG rkg = new RKG(f);
+                                    Main.base_frame.tab_pane.addTab(rkg.file.getName(), new RKGPanel(rkg));
+                                    break;
+                                case "dat":
+                                    throw new MKWSave.InvalidSave("rksys.dat files are not yet supported.");
+                            }
+
+                        } catch (IOException | MKWSave.InvalidSave ex) {
+                            JOptionPane.showMessageDialog(file_chooser, ex.getMessage(), "Error",
+                                    JOptionPane.ERROR_MESSAGE);
                         }
-
-                    } catch (IOException | MKWSave.InvalidSave ex) {
-                        JOptionPane.showMessageDialog(file_chooser, ex.getMessage(), "Error",
-                                JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
