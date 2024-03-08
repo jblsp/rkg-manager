@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 public abstract class MKWSave implements TabbableFile {
 
     protected byte[] data;
-    public File file;
+    private File file;
     String file_identifier;
 
     public MKWSave(File file, String correct_identifier) throws IOException {
@@ -30,8 +30,13 @@ public abstract class MKWSave implements TabbableFile {
     public abstract byte[] getMiiData();
 
     @Override
-    public String getTabName() {
-        return this.file.getName();
+    public File getFile() {
+        return this.file;
+    }
+
+    @Override
+    public void setFile(File f) {
+        this.file = f;
     }
 
     public String getMiiName() {

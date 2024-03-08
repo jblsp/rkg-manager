@@ -1,11 +1,11 @@
 package rkgtool;
 
-import javax.swing.*;
-
-public class RKGPanel extends JPanel {
-    RKG rkg;
-
+public class RKGPanel extends TabPanel {
     public RKGPanel(RKG rkg) {
-        this.rkg = rkg;
+        super(rkg);
+    }
+
+    public RKG getRKG() {
+        return (RKG) this.content;
     }
 }

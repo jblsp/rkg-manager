@@ -147,7 +147,7 @@ public class MenuBar extends JMenuBar {
                 Component cur_tab = RKGTool.base_frame.tab_pane.getSelectedComponent();
                 if (cur_tab instanceof RKGPanel) {
                     List<RKG> al = new ArrayList<RKG>();
-                    al.add(((RKGPanel) cur_tab).rkg);
+                    al.add(((RKGPanel) cur_tab).getRKG());
                     RKGTool.renameRKG(al);
                 }
             }
@@ -163,7 +163,7 @@ public class MenuBar extends JMenuBar {
 
                 for (Component tab : RKGTool.base_frame.tab_pane.getComponents()) {
                     if (tab instanceof RKGPanel) {
-                        al.add(((RKGPanel) tab).rkg);
+                        al.add(((RKGPanel) tab).getRKG());
                     }
                 }
 

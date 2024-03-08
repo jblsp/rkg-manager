@@ -33,7 +33,6 @@ public class TabPane extends JTabbedPane {
     }
 
     public void addTab(TabbableFile s) {
-        this.addTab(s.getTabName(), s.createPanel());
+        this.addTab(s.getFile().getName(), s.createPanel());
     }
-
 }

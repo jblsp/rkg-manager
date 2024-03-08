@@ -1,9 +1,8 @@
 package rkgtool;
 
-import javax.swing.*;
-
-public class RKSYSPanel extends JPanel {
+public class RKSYSPanel extends TabPanel {
 
     public RKSYSPanel(RKSYS rksys) {
+        super(rksys);
     }
 }

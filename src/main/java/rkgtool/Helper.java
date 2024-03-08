@@ -1,9 +1,13 @@
 package rkgtool;
 
 import java.io.InputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
@@ -31,5 +35,12 @@ public class Helper {
             }
         });
         return link_label;
+    }
+
+    public static File renameFile(File f, String new_name) throws IOException {
+        Path old_path = Paths.get(f.getPath());
+        Path new_path = old_path.resolveSibling(new_name);
+        Files.move(old_path, new_path);
+        return new File(new_path.toUri());
     }
 }
