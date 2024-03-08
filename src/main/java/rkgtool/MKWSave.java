@@ -8,29 +8,31 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
-public abstract class MKWSave {
-
-    public static class InvalidSave extends Exception {
-        public InvalidSave(String msg) {
-            super(msg);
-        }
-    }
+public abstract class MKWSave implements TabbableFile {
 
     protected byte[] data;
     public File file;
     String file_identifier;
 
-    public MKWSave(File file) throws IOException, InvalidSave {
+    public MKWSave(File file, String correct_identifier) throws IOException {
         this.data = Files.readAllBytes(file.toPath());
         if (data.length < 4) {
-            throw new InvalidSave("File size is less than 4 bytes");
+            throw new IOException("File size is less than 4 bytes.");
         }
         this.file = file;
         byte[] file_identifier_bytes = Arrays.copyOfRange(this.data, 0x0, 0x4);
         file_identifier = new String(file_identifier_bytes, java.nio.charset.StandardCharsets.US_ASCII);
+        if (!file_identifier.equals(correct_identifier)) {
+            throw new IOException("File identifier does not match.");
+        }
     }
 
     public abstract byte[] getMiiData();
+
+    @Override
+    public String getTabName() {
+        return this.file.getName();
+    }
 
     public String getMiiName() {
         // Each character is made up of two bytes

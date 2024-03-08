@@ -7,17 +7,18 @@ import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Component;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MenuBar extends JMenuBar {
 
     // list of options/submenus that are visible only for specific tabs
-    ArrayList<JMenuItem> rkg_visible_options = new ArrayList<JMenuItem>(); // rkg panel options
-    ArrayList<JMenuItem> rksys_visible_options = new ArrayList<JMenuItem>(); // rksys panel options
+    List<JMenuItem> rkg_visible_options = new ArrayList<JMenuItem>(); // rkg panel options
+    List<JMenuItem> rksys_visible_options = new ArrayList<JMenuItem>(); // rksys panel options
 
     // list of options/submenus that are enabled only in specific tabs
-    ArrayList<JMenuItem> any_tab_enabled_options = new ArrayList<JMenuItem>(); // any tab is open
-    ArrayList<JMenuItem> rkg_enabled_options = new ArrayList<JMenuItem>(); // rkg panel options
-    ArrayList<JMenuItem> rksys_enabled_options = new ArrayList<JMenuItem>(); // rksys panel options
+    List<JMenuItem> any_tab_enabled_options = new ArrayList<JMenuItem>(); // any tab is open
+    List<JMenuItem> rkg_enabled_options = new ArrayList<JMenuItem>(); // rkg panel options
+    List<JMenuItem> rksys_enabled_options = new ArrayList<JMenuItem>(); // rksys panel options
 
     // Generally, I want options under File to be dynamically enabled, and options
     // under Edit to be dynamically visible.
@@ -46,7 +47,7 @@ public class MenuBar extends JMenuBar {
         open_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RKGTool.open();
+                RKGTool.openTabbableFiles();
             }
         });
         file_menu.add(open_button);
@@ -145,7 +146,7 @@ public class MenuBar extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 Component cur_tab = RKGTool.base_frame.tab_pane.getSelectedComponent();
                 if (cur_tab instanceof RKGPanel) {
-                    ArrayList<RKG> al = new ArrayList<RKG>();
+                    List<RKG> al = new ArrayList<RKG>();
                     al.add(((RKGPanel) cur_tab).rkg);
                     RKGTool.renameRKG(al);
                 }
@@ -158,7 +159,7 @@ public class MenuBar extends JMenuBar {
         all_open_rkg_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<RKG> al = new ArrayList<RKG>();
+                List<RKG> al = new ArrayList<RKG>();
 
                 for (Component tab : RKGTool.base_frame.tab_pane.getComponents()) {
                     if (tab instanceof RKGPanel) {

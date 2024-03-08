@@ -6,10 +6,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
@@ -48,7 +47,7 @@ public class RKGTool {
         base_frame = new BaseFrame();
     }
 
-    public static void renameRKG(ArrayList<RKG> rkgs) {
+    public static void renameRKG(List<RKG> rkgs) {
         JLabel line1 = new JLabel("The following files:");
         line1.putClientProperty(FlatClientProperties.STYLE_CLASS, "h3");
         JLabel line2 = new JLabel("Will be renamed to:");
@@ -87,37 +86,35 @@ public class RKGTool {
         }
     }
 
-    public static void open() {
-        JFileChooser file_chooser = new JFileChooser();
-        file_chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        file_chooser
-                .setFileFilter(
-                        new FileNameExtensionFilter("Mario Kart Wii Ghost/Save Files", "rkg", "dat"));
-        file_chooser.setMultiSelectionEnabled(true);
+    public static void openTabbableFiles() {
+        FileChooser file_chooser = new FileChooser(true);
+        file_chooser.addChoosableFileFilter(FileChooser.rkg_filter);
+        file_chooser.addChoosableFileFilter(FileChooser.rksys_filter);
 
-        if (file_chooser.showOpenDialog(RKGTool.base_frame) == JFileChooser.APPROVE_OPTION) {
+        if (file_chooser.showOpenDialog() == JFileChooser.APPROVE_OPTION) {
 
             for (File f : file_chooser.getSelectedFiles()) {
 
                 String fname = f.getName();
                 String f_ext = fname.substring(fname.lastIndexOf('.') + 1);
-                // TODO: check all open tabs and see if any of their files match f (no duplicate
-                // open files)
                 try {
                     switch (f_ext) {
                         case "rkg":
-                            RKG rkg = new RKG(f);
-                            RKGTool.base_frame.tab_pane.addTab(rkg.file.getName(), new RKGPanel(rkg));
+                            base_frame.tab_pane.addTab(new RKG(f));
                             break;
                         case "dat":
-                            throw new MKWSave.InvalidSave("rksys.dat files are not yet supported.");
+                            base_frame.tab_pane.addTab(new RKSYS(f));
+                            break;
+                        default:
+                            throw new IOException("Invalid file extension.");
                     }
 
-                } catch (IOException | MKWSave.InvalidSave ex) {
+                } catch (IOException ex) {
                     JOptionPane.showMessageDialog(file_chooser, ex.getMessage(), "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
             }
+
         }
     }
 }

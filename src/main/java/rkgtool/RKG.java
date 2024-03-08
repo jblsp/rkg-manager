@@ -4,15 +4,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.swing.JPanel;
+
 public class RKG extends MKWSave {
 
-    public RKG(File file) throws IOException, InvalidSave {
-        super(file);
-        if (!this.file_identifier.equals("RKGD")) {
-            throw new InvalidSave("File identifier does not match.");
-        }
+    public RKG(File file) throws IOException {
+        super(file, "RKGD");
     }
 
+    @Override
+    public JPanel createPanel() {
+        return new RKGPanel(this);
+    }
+
+    @Override
     public byte[] getMiiData() {
         return Arrays.copyOfRange(this.data, 0x3C, 0x3C + 0x4A + 0x01);
     }

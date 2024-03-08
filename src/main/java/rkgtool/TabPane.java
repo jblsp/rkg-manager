@@ -32,4 +32,8 @@ public class TabPane extends JTabbedPane {
         super.removeTabAt(index);
     }
 
+    public void addTab(TabbableFile s) {
+        this.addTab(s.getTabName(), s.createPanel());
+    }
+
 }
