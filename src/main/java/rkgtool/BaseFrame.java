@@ -20,7 +20,7 @@ public class BaseFrame extends JFrame {
         try {
             this.setIconImage(ImageIO.read(Helper.loadResource("icon.png")));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         this.setJMenuBar(menu_bar);
