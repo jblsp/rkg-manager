@@ -65,18 +65,6 @@ public class MenuBar extends JMenuBar {
 
         file_menu.addSeparator();
 
-        JMenuItem save_button = new JMenuItem("Save");
-        save_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        save_button.setEnabled(false);
-        // TODO: Save button
-        // rksys_enabled_options.add(save_button);
-        // rkg_enabled_options.add(save_button);
-        file_menu.add(save_button);
-
         JMenuItem save_as_button = new JMenuItem("Save As");
         save_as_button.addActionListener(new ActionListener() {
             @Override
