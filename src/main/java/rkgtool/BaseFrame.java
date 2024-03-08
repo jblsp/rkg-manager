@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class BaseFrame extends JFrame {
 
-    TabPane tab_pane = new TabPane();
+    TabbedPane tabbed_pane = new TabbedPane();
     MenuBar menu_bar = new MenuBar();
 
     public BaseFrame() {
@@ -25,7 +25,7 @@ public class BaseFrame extends JFrame {
 
         this.setJMenuBar(menu_bar);
 
-        this.add(tab_pane);
+        this.add(tabbed_pane);
 
         this.setVisible(true);
     }

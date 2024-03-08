@@ -6,7 +6,10 @@ import com.formdev.flatlaf.FlatClientProperties;
 
 import java.awt.Component;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MenuBar extends JMenuBar {
@@ -56,8 +59,8 @@ public class MenuBar extends JMenuBar {
         close_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int cur_tab_index = RKGTool.base_frame.tab_pane.getSelectedIndex();
-                RKGTool.base_frame.tab_pane.removeTabAt(cur_tab_index);
+                int cur_tab_index = RKGTool.base_frame.tabbed_pane.getSelectedIndex();
+                RKGTool.base_frame.tabbed_pane.removeTabAt(cur_tab_index);
             }
         });
         file_menu.add(close_button);
@@ -122,50 +125,6 @@ public class MenuBar extends JMenuBar {
         });
         preferences_button.setEnabled(false); // TODO: Preferences button
         file_menu.add(preferences_button);
-
-        file_menu.addSeparator();
-
-        JMenu rename_submenu = new JMenu("Rename");
-        file_menu.add(rename_submenu);
-
-        JMenuItem current_rkg_button = new JMenuItem("Current RKG File");
-        current_rkg_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Component cur_tab = RKGTool.base_frame.tab_pane.getSelectedComponent();
-                if (cur_tab instanceof RKGPanel) {
-                    List<RKG> al = new ArrayList<RKG>();
-                    al.add(((RKGPanel) cur_tab).getRKG());
-                    RKGTool.renameRKG(al);
-                }
-            }
-        });
-        rename_submenu.add(current_rkg_button);
-        rkg_visible_options.add(current_rkg_button);
-
-        JMenuItem all_open_rkg_button = new JMenuItem("All Open RKG Files");
-        all_open_rkg_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<RKG> al = new ArrayList<RKG>();
-
-                for (Component tab : RKGTool.base_frame.tab_pane.getComponents()) {
-                    if (tab instanceof RKGPanel) {
-                        al.add(((RKGPanel) tab).getRKG());
-                    }
-                }
-
-                if (al.size() == 0) {
-                    JOptionPane.showMessageDialog(RKGTool.base_frame, "There are no open RKG files.", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                } else {
-                    RKGTool.renameRKG(al);
-                }
-            }
-        });
-        rename_submenu.add(all_open_rkg_button);
-
-        file_menu.addSeparator();
 
         JMenuItem exit_button = new JMenuItem("Exit");
         exit_button.addActionListener(new ActionListener() {
@@ -317,6 +276,65 @@ public class MenuBar extends JMenuBar {
         unlock_all_button.setVisible(false); // TODO: unlock all button
         // rksys_visible_options.add(unlock_all_button);
 
+        // ============================= FILE MENU =============================
+
+        JMenu tools_menu = new JMenu("Tools");
+        this.add(tools_menu);
+
+        JMenuItem rename_rkgs_button = new JMenuItem("Rename RKGs");
+        rename_rkgs_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileChooser file_chooser = new FileChooser(true);
+                file_chooser.addChoosableFileFilter(FileChooser.rkg_filter);
+
+                if (file_chooser.showOpenDialog() == JFileChooser.APPROVE_OPTION) {
+                    record RKGFilePair(RKG rkg, File file) {
+                    }
+                    List<RKGFilePair> valid_rkgs = new LinkedList<RKGFilePair>();
+                    List<String> errors = new LinkedList<String>();
+                    for (File f : file_chooser.getSelectedFiles()) {
+                        try {
+                            valid_rkgs.add(new RKGFilePair(new RKG(f), f));
+                        } catch (IOException ex) {
+                            errors.add(f.getName() + ": " + ex.getMessage());
+                        }
+                    }
+                    Helper.showFileErrorsDialog(errors);
+                    JPanel panel = new JPanel();
+                    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+                    JLabel line1 = new JLabel("The following files:");
+                    line1.putClientProperty(FlatClientProperties.STYLE_CLASS, "h3");
+                    panel.add(line1);
+                    for (RKGFilePair entry : valid_rkgs) {
+                        panel.add(new JLabel(entry.file.getName()));
+                    }
+                    panel.add(Box.createVerticalStrut(15));
+                    JLabel line2 = new JLabel("Will be renamed to:");
+                    line2.putClientProperty(FlatClientProperties.STYLE_CLASS, "h3");
+                    panel.add(line2);
+                    for (RKGFilePair entry : valid_rkgs) {
+                        panel.add(new JLabel(entry.rkg.getFormattedFileName()));
+                    }
+
+                    int selection = JOptionPane.showConfirmDialog(RKGTool.base_frame, panel, "Rename RKGs",
+                            JOptionPane.OK_CANCEL_OPTION);
+                    if (selection == JOptionPane.OK_OPTION) {
+                        for (RKGFilePair entry : valid_rkgs) {
+                            try {
+                                Helper.renameFile(entry.file, entry.rkg.getFormattedFileName());
+                            } catch (IOException ex) {
+                                System.err.println(ex.getMessage());
+                            }
+                        }
+                    }
+
+                }
+
+            }
+        });
+        tools_menu.add(rename_rkgs_button);
+
         // ============================= HELP MENU =============================
 
         JMenu help_menu = new JMenu("Help");
@@ -353,13 +371,14 @@ public class MenuBar extends JMenuBar {
     }
 
     public void updateMenubarOptions() {
-        JPanel tab;
+        TabPanel tab;
         try {
-            tab = (JPanel) RKGTool.base_frame.tab_pane.getSelectedComponent();
+            tab = (TabPanel) RKGTool.base_frame.tabbed_pane.getSelectedComponent();
         } catch (NullPointerException e) {
             tab = null;
         }
 
+        // Disable/Hide all dynamic menu elements
         for (JMenuItem jmi : rkg_visible_options) {
             jmi.setVisible(false);
         }
@@ -376,6 +395,7 @@ public class MenuBar extends JMenuBar {
             jmi.setEnabled(false);
         }
 
+        // Show/enable appropriate dynamic menu elements
         if (tab instanceof RKGPanel) {
             for (JComponent jmi : rkg_visible_options) {
                 jmi.setVisible(true);

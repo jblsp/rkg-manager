@@ -8,9 +8,9 @@ import com.formdev.flatlaf.FlatClientProperties;
 
 import java.util.function.BiConsumer;
 
-public class TabPane extends JTabbedPane {
+public class TabbedPane extends JTabbedPane {
 
-    public TabPane() {
+    public TabbedPane() {
         this.putClientProperty(FlatClientProperties.TABBED_PANE_MAXIMUM_TAB_WIDTH, 200);
         this.putClientProperty(FlatClientProperties.TABBED_PANE_TAB_CLOSABLE, true);
         this.putClientProperty(FlatClientProperties.TABBED_PANE_TAB_CLOSE_CALLBACK,

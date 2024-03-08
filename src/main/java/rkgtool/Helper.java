@@ -1,5 +1,7 @@
 package rkgtool;
 
+import com.formdev.flatlaf.FlatClientProperties;
+
 import java.io.InputStream;
 import java.io.File;
 import java.io.IOException;
@@ -10,10 +12,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Helper {
 
@@ -42,5 +46,16 @@ public class Helper {
         Path new_path = old_path.resolveSibling(new_name);
         Files.move(old_path, new_path);
         return new File(new_path.toUri());
+    }
+
+    public static void showFileErrorsDialog(List<String> errors) {
+        Object[] dialog_contents = new Object[errors.size() + 1];
+        dialog_contents[0] = new JLabel("An error occured when attempting to open the following:");
+        ((JLabel) dialog_contents[0]).putClientProperty(FlatClientProperties.STYLE_CLASS, "h3");
+        for (int i = 0; i < errors.size(); i++) {
+            dialog_contents[i + 1] = errors.get(i);
+        }
+        JOptionPane.showMessageDialog(RKGTool.base_frame, dialog_contents, "Error Opening File(s)",
+                JOptionPane.ERROR_MESSAGE);
     }
 }
