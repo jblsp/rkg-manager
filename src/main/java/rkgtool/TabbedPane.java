@@ -22,6 +22,10 @@ public class TabbedPane extends JTabbedPane {
             @Override
             public void stateChanged(ChangeEvent e) {
                 RKGTool.base_frame.menu_bar.updateMenubarOptions();
+                if (TabbedPane.this.getComponentCount() > 0
+                        && !(RKGTool.base_frame.getContentPane() instanceof TabbedPane)) {
+                    RKGTool.base_frame.setContentPane(RKGTool.base_frame.tabbed_pane);
+                }
             }
         });
     }
@@ -30,9 +34,13 @@ public class TabbedPane extends JTabbedPane {
     public void removeTabAt(int index) {
         // TODO: warn user if there is unsaved work here
         super.removeTabAt(index);
+        if (this.getComponentCount() == 0) {
+            RKGTool.base_frame.setContentPane(RKGTool.base_frame.base_panel);
+        }
     }
 
     public void addTab(TabbableFile s) {
         this.addTab(s.getFile().getName(), s.createPanel());
     }
+
 }

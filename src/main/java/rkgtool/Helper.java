@@ -55,7 +55,9 @@ public class Helper {
         for (int i = 0; i < errors.size(); i++) {
             dialog_contents[i + 1] = errors.get(i);
         }
-        JOptionPane.showMessageDialog(RKGTool.base_frame, dialog_contents, "Error Opening File(s)",
-                JOptionPane.ERROR_MESSAGE);
+        if (errors.size() >= 1) {
+            JOptionPane.showMessageDialog(RKGTool.base_frame, dialog_contents, "Error Opening File(s)",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

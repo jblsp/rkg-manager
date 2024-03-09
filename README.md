@@ -26,8 +26,7 @@ GUI tool for Mario Kart Wii [ghost](https://wiki.tockdom.com/wiki/RKG_(File_Form
   - [x] About Window (Mar 3rd, 2024)
   - [x] File Opening (Mar 4th, 2024)
   - [x] (Batch) RKG File Renaming (Mar 5th, 2024)
-  - [ ] Find General Font
-  - [ ] Welcome Window
+  - [ ] Base Frame UI
   - [ ] Get All Possible [Flag Icons](https://github.com/lipis/flag-icons)
   - [ ] Initial RKG UI
   - [ ] Implement [CTMKF](https://wiki.tockdom.com/wiki/CTMKF) Font for Mii Name Symbols

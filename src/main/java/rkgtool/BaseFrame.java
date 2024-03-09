@@ -9,6 +9,7 @@ public class BaseFrame extends JFrame {
 
     TabbedPane tabbed_pane = new TabbedPane();
     MenuBar menu_bar = new MenuBar();
+    BasePanel base_panel = new BasePanel();
 
     public BaseFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,8 +26,17 @@ public class BaseFrame extends JFrame {
 
         this.setJMenuBar(menu_bar);
 
-        this.add(tabbed_pane);
+        this.setContentPane(base_panel);
 
         this.setVisible(true);
+    }
+
+    public void updateContentPane() {
+        if (this.tabbed_pane.getComponentCount() == 0
+                && !(this.getContentPane() instanceof BasePanel)) {
+            this.setContentPane(this.base_panel);
+        } else if (this.tabbed_pane.getComponentCount() > 0 && !(this.getContentPane() instanceof TabbedPane)) {
+            this.setContentPane(this.tabbed_pane);
+        }
     }
 }
