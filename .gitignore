@@ -1,3 +1,11 @@
+# Ghost files for testing purposes
 *.rkg
+
+# VSCode settings
 .vscode
+
+# Maven Build Directory
 target
+
+# MacOS Files
+.DS_Store
