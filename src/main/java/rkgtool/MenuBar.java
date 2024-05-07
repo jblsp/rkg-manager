@@ -282,6 +282,7 @@ public class MenuBar extends JMenuBar {
         rename_rkgs_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                RKGTool.renameRKGs();
             }
         });
         tools_menu.add(rename_rkgs_button);

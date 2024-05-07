@@ -1,6 +1,8 @@
 package rkgtool;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,11 +13,20 @@ import com.formdev.flatlaf.FlatClientProperties;
 public class BasePanel extends JPanel {
 
     public BasePanel() {
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        this.add(Box.createVerticalGlue());
+        this.add(centerPanel);
+        this.add(Box.createVerticalGlue());
+
         JLabel title = new JLabel("RKG Tool");
         title.putClientProperty(FlatClientProperties.STYLE, "font: +40 $h1.font");
-        // title.setForeground(new Color(10, 10, 10));
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(title, BorderLayout.CENTER);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(title);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        centerPanel.add(buttonPanel);
 
         JButton open_button = new JButton("Open Files");
         open_button.addActionListener(new ActionListener() {
@@ -24,7 +35,7 @@ public class BasePanel extends JPanel {
                 RKGTool.openTabbableFiles();
             }
         });
-        this.add(open_button);
+        buttonPanel.add(open_button);
 
         JButton rename_button = new JButton("Rename RKGs");
         rename_button.addActionListener(new ActionListener() {
@@ -33,6 +44,6 @@ public class BasePanel extends JPanel {
                 RKGTool.renameRKGs();
             }
         });
-        this.add(rename_button);
+        buttonPanel.add(rename_button);
     }
 }
