@@ -1,9 +1,6 @@
 package rkgtool;
 
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 
 import javax.swing.*;
 
@@ -28,21 +25,11 @@ public class BasePanel extends JPanel {
         centerPanel.add(buttonPanel);
 
         JButton open_button = new JButton("Open Files");
-        open_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                RKGTool.openTabbableFiles();
-            }
-        });
+        open_button.addActionListener(e -> RKGTool.openTabbableFiles());
         buttonPanel.add(open_button);
 
         JButton rename_button = new JButton("Rename RKGs");
-        rename_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                RKGTool.renameRKGs();
-            }
-        });
+        rename_button.addActionListener(e -> RKGTool.renameRKGs());
         buttonPanel.add(rename_button);
     }
 }

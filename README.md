@@ -28,7 +28,7 @@ GUI tool for Mario Kart Wii [ghost](https://wiki.tockdom.com/wiki/RKG_(File_Form
   - [x] (Batch) RKG File Renaming (Mar 5th, 2024)
   - [x] Initial Base Frame UI (May 7th, 2024)
   - [x] Get All Possible [Flag Icons](https://github.com/lipis/flag-icons) (May 7th, 2024)
-  - [ ] Translate SVG files
+  - [x] Render SVG Flag Files
   - [ ] Initial RKG UI
   - [ ] Implement [CTMKF](https://wiki.tockdom.com/wiki/CTMKF) Font for Mii Name Symbols
   - [x] Migrate Project to Maven (Mar 3rd, 2024)

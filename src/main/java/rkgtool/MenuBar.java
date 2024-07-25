@@ -5,20 +5,19 @@ import javax.swing.*;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import java.awt.Component;
-import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuBar extends JMenuBar {
 
     // list of options/submenus that are visible only for specific tabs
-    List<JMenuItem> rkg_visible_options = new ArrayList<JMenuItem>(); // rkg panel options
-    List<JMenuItem> rksys_visible_options = new ArrayList<JMenuItem>(); // rksys panel options
+    List<JMenuItem> rkg_visible_options = new ArrayList<>(); // rkg panel options
+    List<JMenuItem> rksys_visible_options = new ArrayList<>(); // rksys panel options
 
     // list of options/submenus that are enabled only in specific tabs
-    List<JMenuItem> any_tab_enabled_options = new ArrayList<JMenuItem>(); // any tab is open
-    List<JMenuItem> rkg_enabled_options = new ArrayList<JMenuItem>(); // rkg panel options
-    List<JMenuItem> rksys_enabled_options = new ArrayList<JMenuItem>(); // rksys panel options
+    List<JMenuItem> any_tab_enabled_options = new ArrayList<>(); // any tab is open
+    List<JMenuItem> rkg_enabled_options = new ArrayList<>(); // rkg panel options
+    List<JMenuItem> rksys_enabled_options = new ArrayList<>(); // rksys panel options
 
     // Generally, I want options under File to be dynamically enabled, and options
     // under Edit to be dynamically visible.
@@ -34,31 +33,20 @@ public class MenuBar extends JMenuBar {
         file_menu.add(new_submenu);
 
         JMenuItem rksys_button = new JMenuItem("rksys.dat File");
-        rksys_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        rksys_button.addActionListener(e -> {
 
-            }
         });
         new_submenu.add(rksys_button);
         rksys_button.setEnabled(false); // TODO: New rksys button
 
         JMenuItem open_button = new JMenuItem("Open");
-        open_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                RKGTool.openTabbableFiles();
-            }
-        });
+        open_button.addActionListener(e -> RKGTool.openTabbableFiles());
         file_menu.add(open_button);
 
         JMenuItem close_button = new JMenuItem("Close");
-        close_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int cur_tab_index = RKGTool.base_frame.tabbed_pane.getSelectedIndex();
-                RKGTool.base_frame.tabbed_pane.removeTabAt(cur_tab_index);
-            }
+        close_button.addActionListener(e -> {
+            int cur_tab_index = RKGTool.base_frame.tabbed_pane.getSelectedIndex();
+            RKGTool.base_frame.tabbed_pane.removeTabAt(cur_tab_index);
         });
         file_menu.add(close_button);
         any_tab_enabled_options.add(close_button);
@@ -66,10 +54,7 @@ public class MenuBar extends JMenuBar {
         file_menu.addSeparator();
 
         JMenuItem save_as_button = new JMenuItem("Save As");
-        save_as_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
+        save_as_button.addActionListener(e -> {
         });
         save_as_button.setEnabled(false);
         // TODO: Save as button
@@ -81,31 +66,22 @@ public class MenuBar extends JMenuBar {
         file_menu.add(export_submenu);
 
         JMenuItem export_rkg_button = new JMenuItem(".rkg File");
-        export_rkg_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
+        export_rkg_button.addActionListener(e -> {
         });
         export_submenu.add(export_rkg_button);
         rkg_visible_options.add(export_rkg_button);
 
         JMenuItem export_rksys_button = new JMenuItem("rksys.dat File");
-        export_rksys_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        export_rksys_button.addActionListener(e -> {
 
-            }
         });
         export_submenu.add(export_rksys_button);
         export_rksys_button.setEnabled(false); // TODO: Export rksys button
         // rksys_visible_options.add(export_rksys_button);
 
         JMenuItem export_mii_button = new JMenuItem("Mii Data");
-        export_mii_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        export_mii_button.addActionListener(e -> {
 
-            }
         });
         export_submenu.add(export_mii_button);
         export_mii_button.setEnabled(false); // TODO: Export mii button
@@ -114,22 +90,14 @@ public class MenuBar extends JMenuBar {
         file_menu.addSeparator();
 
         JMenuItem preferences_button = new JMenuItem("Preferences");
-        preferences_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        preferences_button.addActionListener(e -> {
 
-            }
         });
         preferences_button.setEnabled(false); // TODO: Preferences button
         file_menu.add(preferences_button);
 
         JMenuItem exit_button = new JMenuItem("Exit");
-        exit_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        exit_button.addActionListener(e -> System.exit(0));
         file_menu.add(exit_button);
 
         // ============================= EDIT MENU =============================
@@ -142,31 +110,22 @@ public class MenuBar extends JMenuBar {
         rkg_visible_options.add(time_submenu);
 
         JMenuItem minutes_button = new JMenuItem("Minutes");
-        minutes_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        minutes_button.addActionListener(e -> {
 
-            }
         });
         time_submenu.add(minutes_button);
         minutes_button.setEnabled(false); // TODO: Minutes button
 
         JMenuItem seconds_button = new JMenuItem("Seconds");
-        seconds_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        seconds_button.addActionListener(e -> {
 
-            }
         });
         time_submenu.add(seconds_button);
         seconds_button.setEnabled(false); // TODO: Seconds button
 
         JMenuItem milliseconds_button = new JMenuItem("Milliseconds");
-        milliseconds_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        milliseconds_button.addActionListener(e -> {
 
-            }
         });
         time_submenu.add(milliseconds_button);
         milliseconds_button.setEnabled(false); // TODO: Milliseconds button
@@ -176,31 +135,22 @@ public class MenuBar extends JMenuBar {
         rkg_visible_options.add(date_submenu);
 
         JMenuItem year_button = new JMenuItem("Year");
-        year_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        year_button.addActionListener(e -> {
 
-            }
         });
         date_submenu.add(year_button);
         year_button.setEnabled(false); // TODO: Year button
 
         JMenuItem month_button = new JMenuItem("Month");
-        month_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        month_button.addActionListener(e -> {
 
-            }
         });
         date_submenu.add(month_button);
         month_button.setEnabled(false); // TODO: Month button
 
         JMenuItem day_button = new JMenuItem("Day");
-        day_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        day_button.addActionListener(e -> {
 
-            }
         });
         date_submenu.add(day_button);
         day_button.setEnabled(false); // TODO: Day button
@@ -210,64 +160,46 @@ public class MenuBar extends JMenuBar {
         rkg_visible_options.add(location_submenu);
 
         JMenuItem country_button = new JMenuItem("Country");
-        country_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        country_button.addActionListener(e -> {
 
-            }
         });
         location_submenu.add(country_button);
         country_button.setEnabled(false); // TODO: Country button
 
         JMenuItem state_button = new JMenuItem("State");
-        state_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        state_button.addActionListener(e -> {
 
-            }
         });
         location_submenu.add(state_button);
         state_button.setEnabled(false); // TODO: State button
 
         JMenuItem mii_name_button = new JMenuItem("Mii Name");
-        mii_name_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        mii_name_button.addActionListener(e -> {
 
-            }
         });
         edit_menu.add(mii_name_button);
         mii_name_button.setVisible(false); // TODO: Mii Name button
         // rkg_visible_options.add(mii_name_button);
 
         JMenuItem controller_button = new JMenuItem("Controller");
-        controller_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        controller_button.addActionListener(e -> {
 
-            }
         });
         edit_menu.add(controller_button);
         controller_button.setVisible(false); // TODO : Controller button
         // rkg_visible_options.add(controller_button);
 
         JMenuItem ghost_type_button = new JMenuItem("Ghost Type");
-        ghost_type_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        ghost_type_button.addActionListener(e -> {
 
-            }
         });
         edit_menu.add(ghost_type_button);
         ghost_type_button.setVisible(false); // TODO: Ghost type button
         // rkg_visible_options.add(ghost_type_button);
 
         JMenuItem unlock_all_button = new JMenuItem("Unlock All");
-        unlock_all_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        unlock_all_button.addActionListener(e -> {
 
-            }
         });
         edit_menu.add(unlock_all_button);
         unlock_all_button.setVisible(false); // TODO: unlock all button
@@ -279,12 +211,7 @@ public class MenuBar extends JMenuBar {
         this.add(tools_menu);
 
         JMenuItem rename_rkgs_button = new JMenuItem("Rename RKGs");
-        rename_rkgs_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                RKGTool.renameRKGs();
-            }
-        });
+        rename_rkgs_button.addActionListener(e -> RKGTool.renameRKGs());
         tools_menu.add(rename_rkgs_button);
 
         // ============================= HELP MENU =============================
@@ -293,27 +220,24 @@ public class MenuBar extends JMenuBar {
         this.add(help_menu);
 
         JMenuItem about_button = new JMenuItem("About");
-        about_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JLabel title = new JLabel("RKG Tool");
-                title.putClientProperty(FlatClientProperties.STYLE_CLASS, "h1");
-                String version;
-                if (RKGTool.implVersion.equals("Test")) {
-                    version = "Test Build";
-                } else {
-                    version = "Version " + RKGTool.implVersion;
-                }
-                Object[] dialog_contents = new Object[] {
-                        title,
-                        version,
-                        " ",
-                        "Made by Joe",
-                        Helper.createLinkLabel("Source", "https://github.com/jblsp/rkg-tool"),
-                        Helper.createLinkLabel("License", "https://github.com/jblsp/rkg-tool/blob/master/LICENSE")
-                };
-                JOptionPane.showMessageDialog(RKGTool.base_frame, dialog_contents, "About", JOptionPane.PLAIN_MESSAGE);
+        about_button.addActionListener(e -> {
+            JLabel title = new JLabel("RKG Tool");
+            title.putClientProperty(FlatClientProperties.STYLE_CLASS, "h1");
+            String version;
+            if (RKGTool.implVersion.equals("Test")) {
+                version = "Test Build";
+            } else {
+                version = "Version " + RKGTool.implVersion;
             }
+            Object[] dialog_contents = new Object[] {
+                    title,
+                    version,
+                    " ",
+                    "Made by Joe",
+                    Helper.createLinkLabel("Source", "https://github.com/jblsp/rkg-tool"),
+                    Helper.createLinkLabel("License", "https://github.com/jblsp/rkg-tool/blob/master/LICENSE")
+            };
+            JOptionPane.showMessageDialog(RKGTool.base_frame, dialog_contents, "About", JOptionPane.PLAIN_MESSAGE);
         });
         help_menu.add(about_button);
 

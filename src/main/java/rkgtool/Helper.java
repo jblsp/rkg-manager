@@ -41,21 +41,20 @@ public class Helper {
         return link_label;
     }
 
-    public static File renameFile(File f, String new_name) throws IOException {
+    public static void renameFile(File f, String new_name) throws IOException {
         Path old_path = Paths.get(f.getPath());
         Path new_path = old_path.resolveSibling(new_name);
         Files.move(old_path, new_path);
-        return new File(new_path.toUri());
     }
 
     public static void showFileErrorsDialog(List<String> errors) {
         Object[] dialog_contents = new Object[errors.size() + 1];
-        dialog_contents[0] = new JLabel("An error occured when attempting to open the following:");
+        dialog_contents[0] = new JLabel("An error occurred when attempting to open the following:");
         ((JLabel) dialog_contents[0]).putClientProperty(FlatClientProperties.STYLE_CLASS, "h3");
         for (int i = 0; i < errors.size(); i++) {
             dialog_contents[i + 1] = errors.get(i);
         }
-        if (errors.size() >= 1) {
+        if (!errors.isEmpty()) {
             JOptionPane.showMessageDialog(RKGTool.base_frame, dialog_contents, "Error Opening File(s)",
                     JOptionPane.ERROR_MESSAGE);
         }

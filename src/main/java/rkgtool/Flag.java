@@ -1,10 +1,21 @@
 package rkgtool;
 
+import java.awt.*;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CountryCodes {
+import javax.swing.*;
+
+import com.github.weisj.jsvg.attributes.ViewBox;
+import com.github.weisj.jsvg.parser.SVGLoader;
+import com.github.weisj.jsvg.SVGDocument;
+
+public class Flag extends JPanel {
+
     public static final Map<Integer, String> CODE_MAP = new HashMap<>();
+
+    private final SVGDocument doc;
 
     static {
         // Japan
@@ -378,6 +389,27 @@ public class CountryCodes {
 
         // Jordan
         CODE_MAP.put(177, "jo");
-
     }
+
+    public Flag(int country_code) {
+        String svg_path = "flags/" + CODE_MAP.get(country_code) + ".svg";
+        SVGLoader loader = new SVGLoader();
+        System.out.println(svg_path);
+        InputStream svg_url = Helper.loadResource(svg_path);
+        this.doc = loader.load(svg_url);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        ((Graphics2D) g).setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        ((Graphics2D) g).setRenderingHint(
+                RenderingHints.KEY_STROKE_CONTROL,
+                RenderingHints.VALUE_STROKE_PURE);
+
+        this.doc.render(this, (Graphics2D) g, new ViewBox(0, 0, getWidth(), getHeight()));
+    }
+
 }
