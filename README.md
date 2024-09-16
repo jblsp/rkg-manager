@@ -10,7 +10,7 @@ GUI tool for Mario Kart Wii [ghost](https://wiki.tockdom.com/wiki/RKG_(File_Form
 
 1) Install [Apache Maven](https://maven.apache.org/).
 2) Clone this repository.
-3) Run `mvn package`. The output jar file and [launch4j](https://launch4j.sourceforge.net) executable will be in /target.
+3) Run `mvn package`. The output jar file and [launch4j](https://launch4j.sourceforge.net) executable will be in `/target`.
 
 ## Project Roadmap
 
@@ -89,7 +89,7 @@ GUI tool for Mario Kart Wii [ghost](https://wiki.tockdom.com/wiki/RKG_(File_Form
 
 - ### Unplanned/Potential Features
 
-  - [ ] Custom Top 10 Leaderboard Support
+  - [ ] [Custom Time Trial Rankings](https://mariokartwii.com/showthread.php?tid=1544) Exporting
   - [ ] Export Input Display Video with [PyRKG](https://github.com/AtishaRibeiro/PyRKG)
   - [ ] Import Ghost from Ninrankings/MKLeaderboards/Chadsoft
 
